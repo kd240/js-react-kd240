@@ -1,0 +1,45 @@
+* {
+    font-family: Helvetica, sans-serif;
+    font-size: 1.2rem;
+}
+table {
+    margin-top: 2rem;
+    width: 100%;
+    border-spacing: 0;
+    text-align: center;
+    line-height: 2em
+}
+tr:first-of-type {
+    background-color: deepskyblue;
+    border: none;
+}
+tr:first-of-type:hover {
+    background-color: deepskyblue;
+    cursor: auto;
+}
+tr:hover {
+    background-color: aqua;
+    cursor: pointer;
+}
+.info {
+    width: 55%;
+    margin: 0 auto;
+    text-align: center
+}
+.info table {
+    margin: 20px;
+    border: solid skyblue 1px;
+}
+.info table tr td:first-child {
+    font-weight: 600;
+    text-align: right;
+    width: 50%;
+    padding-right: 2rem;
+    border-bottom: solid skyblue 1px;
+}
+.info table tr td:last-child {
+    text-align: left;
+    padding-right: 2rem;
+    width: 50%;
+    border-bottom: solid skyblue 1px;
+}

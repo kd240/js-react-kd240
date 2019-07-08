@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import './style.css';
+import { useLocalStorage } from 'react-use';
 
 function HelloWorld() {
-  const [fetchedData, setFetchedData] = React.useState([]);
+  const [favorites, setFavorites] = useLocalStorage('favorites', []);
+  const [fetchedData, setFetchedData] = React.useState(() => {
+    if(favorites.length > 0)
+      return favorites;
+    return [];
+  });
   const [searchValue, setSearchValue] = React.useState("");
+  const [details, setDetails] = React.useState({selected: false});
 
   React.useEffect(() => {
     async function fetchData() {
@@ -17,13 +24,12 @@ function HelloWorld() {
           }
         }
       ).then(res => {
-          console.log(res);
-          if (res.ok) return res.json();
-          throw new Error("Fetch failed");
-        }).then(data => setFetchedData(data.flights))
+        console.log(res);
+        if (res.ok) return res.json();
+        throw new Error("Fetch failed");
+      }).then(data => setFetchedData(data.flights))
         .catch(err => console.error("Error", err));
     }
-
     fetchData();
   }, [])
 
@@ -31,26 +37,105 @@ function HelloWorld() {
     setSearchValue(e.target.value);
   }
 
+  function addToLocalStorage(e) {
+    const id = ReactDOM.findDOMNode(e.target).parentNode.parentNode.childNodes[0].innerHTML;
+    fetchedData.forEach(item => {
+      if(item.id == id) {
+        if(favorites.includes(item)){
+          console.log(true)
+          setFavorites(favorites.filter(e => !(e.id == id)))
+        } else {
+          setFavorites([...favorites, item])
+        }
+      }
+    });
+  }
+
+  function getInfo(e) {
+    const id = ReactDOM.findDOMNode(e.target).parentNode.childNodes[0].innerHTML;
+    fetchedData.forEach(item => {
+      if(item.id == id) {
+        let newDetails = item;
+        newDetails.selected = true;
+        setDetails(newDetails);
+      }
+    });
+  }
+
   return (
     <div>
       <input value={searchValue} onChange={onSearchInputChange} />
-      
-      <ul>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Flight name</th>
+          <th>Company Name#ID</th>
+          <th>Flys at</th>
+          <th>Lands at</th>
+          <th>Current price</th>
+          <th>Favorite</th>
+        </tr>
         {fetchedData.map(item => (
-          <li key={item.id}>
-            <div>
-              <span>{item.id}</span>
-              <span>{item.name}</span>
-              <span>{item.company_name}</span>
-              <span>{item.company_id}</span>
-              <span>{item.flys_at}</span>
-              <span>{item.lands_at}</span>
-              <span>{item.current_price}</span>
-              <button onClick="addToLocalStorage" >*</button>
-            </div>
-          </li>
+          <tr key={item.id} onClick={getInfo}>
+            <td>{item.id}</td>
+            <td>{item.name}</td>
+            <td>{item.company_name}#{item.company_id}</td>
+            <td>{item.flys_at}</td>
+            <td>{item.lands_at}</td>
+            <td>{item.current_price}</td>
+            <td><button onClick={addToLocalStorage} title="Add to favorites">{favorites.includes(item) ? "❤️" : "️💙️️"}</button></td>
+          </tr>
         ))}
-      </ul>
+      </table>
+      <hr />
+      <div class="info">
+        {!details.selected && (
+          <div>
+            <h1>No flight selected!</h1>
+            <p>Please select flight from the table.</p>
+          </div>
+          )}
+        {details.selected && (
+          <table>
+            <tr>
+              <th colspan="2">{details.name}#{details.id}</th>
+            </tr>
+            <tr>
+              <td>ID</td>
+              <td>{details.id}</td>
+            </tr>
+            <tr>
+              <td>Flight's name</td>
+              <td>{details.name}</td>
+            </tr>
+            <tr>
+              <td>Company's info</td>
+              <td>{details.company_name}#{details.company_id}</td>
+            </tr>
+            <tr>
+              <td>Flys info</td>
+              <td>{details.flys_at}</td>
+            </tr>
+            <tr>
+              <td>Lads info</td>
+              <td>{details.lands_at}</td>
+            </tr>
+            <tr>
+              <td>Seats (free/booked)</td>
+              <td>
+                <span>{details.no_of_seats - details.no_of_booked_seats}</span>/
+                <span>{details.no_of_booked_seats}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Price (base/current)</td>
+              <td>{details.base_price}/{details.current_price}</td>
+            </tr>
+          </table>
+        )}
+      </div>
+      <hr />
+      {JSON.stringify(fetchedData)}
     </div>
   );
 }
