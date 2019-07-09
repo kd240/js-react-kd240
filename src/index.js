@@ -27,8 +27,13 @@ function HelloWorld() {
         console.log(res);
         if (res.ok) return res.json();
         throw new Error("Fetch failed");
-      }).then(data => setFetchedData(data.flights))
-        .catch(err => console.error("Error", err));
+      }).then(data => {
+        let newData = [...fetchedData];
+        data.flights
+          .filter(flight => !fetchedData.includes(flight))
+          .forEach(flight => newData = [flight, ...newData]);
+        setFetchedData(newData);
+      }).catch(err => console.error("Error", err));
     }
     fetchData();
   }, [])
@@ -38,17 +43,26 @@ function HelloWorld() {
   }
 
   function addToLocalStorage(e) {
-    const id = ReactDOM.findDOMNode(e.target).parentNode.parentNode.childNodes[0].innerHTML;
-    fetchedData.forEach(item => {
-      if(item.id == id) {
-        if(favorites.includes(item)){
-          console.log(true)
-          setFavorites(favorites.filter(e => !(e.id == id)))
+    const id = Number(ReactDOM.findDOMNode(e.target).parentNode.parentNode.childNodes[0].innerHTML);
+    fetchedData
+      .filter(item => item.id === id)
+      .forEach(item => {
+        if(favorites.map(item => item.id).includes(id)) {
+          setFavorites(favorites.filter(item => item.id !== id));
         } else {
-          setFavorites([...favorites, item])
+          setFavorites([...favorites, item]);
         }
-      }
-    });
+      });
+    // fetchedData.forEach(item => {
+    //   if(item.id === id) {
+    //     if(favorites.includes(item)){
+    //       console.log(true)
+    //       setFavorites(favorites.filter(e => !(e.id == id)))
+    //     } else {
+    //       setFavorites([...favorites, item])
+    //     }
+    //   }
+    // });
   }
 
   function getInfo(e) {
@@ -66,6 +80,7 @@ function HelloWorld() {
     <div>
       <input value={searchValue} onChange={onSearchInputChange} />
       <table>
+        <tbody>
         <tr>
           <th>ID</th>
           <th>Flight name</th>
@@ -86,9 +101,10 @@ function HelloWorld() {
             <td><button onClick={addToLocalStorage} title="Add to favorites">{favorites.includes(item) ? "❤️" : "️💙️️"}</button></td>
           </tr>
         ))}
+        </tbody>
       </table>
       <hr />
-      <div class="info">
+      <div className="info">
         {!details.selected && (
           <div>
             <h1>No flight selected!</h1>
