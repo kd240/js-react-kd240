@@ -9,6 +9,14 @@ table {
     text-align: center;
     line-height: 2em
 }
+table button {
+    border: none;
+    background: none;
+    font-size: 1.8rem;
+}
+tr:nth-of-type(2n - 1) {
+    background-color: aliceblue
+}
 tr:first-of-type {
     background-color: deepskyblue;
     border: none;
@@ -30,16 +38,29 @@ tr:hover {
     margin: 20px;
     border: solid skyblue 1px;
 }
+.info table tr {  
+    border-bottom: solid skyblue 1px;
+    padding: 0;
+}
 .info table tr td:first-child {
     font-weight: 600;
     text-align: right;
     width: 50%;
     padding-right: 2rem;
-    border-bottom: solid skyblue 1px;
 }
-.info table tr td:last-child {
+.info table tr td:nth-child(2) {
     text-align: left;
     padding-right: 2rem;
     width: 50%;
-    border-bottom: solid skyblue 1px;
+}
+.close {
+    cursor: pointer;
+    color: red;
+    font-size: 2rem;
+}
+select {
+    margin: 0 1rem
+}
+input {
+    margin: 0 1reM
 }
