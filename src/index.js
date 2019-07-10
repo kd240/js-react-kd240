@@ -66,6 +66,11 @@ function HelloWorld() {
       .catch(err => console.error(err));
   }
 
+  function logOut() {
+    window.localStorage.removeItem('session');
+    window.location.reload()
+  }
+
   async function editData() {
     if (editPassword !== editPasswordA) alert("Passwords don't match");
     else {
@@ -197,6 +202,7 @@ function HelloWorld() {
               </div>
             )}
           </div>
+          <button onClick={logOut}>Log Out</button>
           <hr />
           <div id="booking">
             <h2>Bookings</h2>
