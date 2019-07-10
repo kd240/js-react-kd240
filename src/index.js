@@ -1,20 +1,24 @@
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/jsx-max-depth */
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useLocalStorage } from 'react-use';
 import './style.css';
-import { async } from 'q';
 
 function HelloWorld() {
-  const [session, setSession] = useLocalStorage('session', "");
+  const [session, setSession] = useLocalStorage('session', '');
   const [loggedIn, setLoggedIn] = useState(session);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [edit, setEdit] = useState(false);
-  const [editFName, setEditFName] = useState(loggedIn ? session.user.first_name : "");
-  const [editLName, setEditLName] = useState(loggedIn ? session.user.last_name : "");
-  const [editEmail, setEditEmail] = useState(loggedIn ? session.user.email : "");
-  const [editPassword, setEditPassword] = useState("");
-  const [editPasswordA, setEditPasswordA] = useState("");
+  const [editFName, setEditFName] = useState(loggedIn ? session.user.first_name : '');
+  const [editLName, setEditLName] = useState(loggedIn ? session.user.last_name : '');
+  const [editEmail, setEditEmail] = useState(loggedIn ? session.user.email : '');
+  const [editPassword, setEditPassword] = useState('');
+  const [editPasswordA, setEditPasswordA] = useState('');
   const [addBooking, setAddBooking] = useState(false);
   const [flights, setFlights] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -26,39 +30,41 @@ function HelloWorld() {
   useEffect(() => {
     async function fetchFlights() {
       const options = {
-        "headers": {
-          "Authorization": session.token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
+        headers: {
+          Authorization: session.token,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       };
       await fetch('https://flighter-hw7.herokuapp.com/api/flights', options)
-        .then(res => res.ok ? res.json() : new Error("Failed!"))
-        .then(res => {
+        .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+        .then((res) => {
           setFlights(res.flights);
         })
-        .catch(err => console.error(err));
+        .catch((err) => console.error(err));
     }
-    if(session) fetchFlights()
+    if (session) {
+      fetchFlights();
+    }
   }, [session]);
 
   async function logIn() {
     const options = {
-      "method": "POST",
-      "body": JSON.stringify({
-        "session": {
-          "email": email,
-          "password": password
-        }
+      method: 'POST',
+      body: JSON.stringify({
+        session: {
+          email,
+          password,
+        },
       }),
-      "headers": {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     };
     await fetch('https://flighter-hw7.herokuapp.com/api/session', options)
-      .then(async (res) => res.ok ? await res.json() : new Error("Failed!"))
-      .then(res => {
+      .then(async(res) => (res.ok ? res.json() : new Error('Failed!')))
+      .then((res) => {
         if (res.session) {
           setSession(res.session);
           setLoggedIn(true);
@@ -69,174 +75,182 @@ function HelloWorld() {
           alert('Incorrect email and/or password!');
         }
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   function logOut() {
     window.localStorage.removeItem('session');
-    window.location.reload()
+    window.location.reload();
   }
 
   async function editData() {
-    if (editPassword !== editPasswordA) alert("Passwords don't match");
-    else {
+    if (editPassword !== editPasswordA) {
+      alert('Passwords don\'t match');
+    } else {
       const options = {
-        "method": "PUT",
-        "body": JSON.stringify({
-          "user": {
-            "email": editEmail,
-            "first_name": editFName,
-            "last_name": editLName,
-            "password": editPassword
-          }
+        method: 'PUT',
+        body: JSON.stringify({
+          user: {
+            email: editEmail,
+            first_name: editFName,
+            last_name: editLName,
+            password: editPassword,
+          },
         }),
-        "headers": {
-          "Authorization": session.token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
+        headers: {
+          Authorization: session.token,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       };
       await fetch(`https://flighter-hw7.herokuapp.com/api/users/${session.user.id}`, options)
-        .then(res => res.ok ? res.json() : new Error("Failed!"))
-        .then(res => {
+        .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+        .then((res) => {
           console.log(res);
-          setSession({ "token": session.token, "user": res.user });
-          alert("User updated!");
+          setSession({ token: session.token, user: res.user });
+          alert('User updated!');
         })
-        .catch(err => console.error(err));
+        .catch((err) => console.error(err));
     }
   }
 
-  async function getBookings(){
+  async function getBookings() {
     const options = {
-      "method": "GET",
-      "headers": {
-        "Authorization": session.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
+      method: 'GET',
+      headers: {
+        Authorization: session.token,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     };
     await fetch('https://flighter-hw7.herokuapp.com/api/bookings', options)
-      .then(res => res.ok ? res.json() : new Error("Failed!"))
-      .then(res => {
-        console.log(res)
-        if(res.bookings.length === 0) alert('No bookings!');
+      .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+      .then((res) => {
+        console.log(res);
+        if (res.bookings.length === 0) {
+          alert('No bookings!');
+        }
         setBookings(res.bookings);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   async function onClickAddBooking(id, noOfFreeSeats) {
-    if(noOfFreeSeats < Number(document.getElementById(id).value)) {
-      alert("Not enought seats available!");
+    if (noOfFreeSeats < Number(document.getElementById(id).value)) {
+      alert('Not enought seats available!');
       return;
     }
     const options = {
-      "method": "POST",
-      "body": JSON.stringify({
-        "booking": {
-          "no_of_seats": document.getElementById(id).value,
-          "flight_id": id
-        }
+      method: 'POST',
+      body: JSON.stringify({
+        booking: {
+          no_of_seats: document.getElementById(id).value,
+          flight_id: id,
+        },
       }),
-      "headers": {
-        "Authorization": session.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
+      headers: {
+        Authorization: session.token,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     };
   }
 
   async function onClickRemoveBooking(id) {
     const options = {
-      "method": "DELETE",
-      "headers": {
-        "Authorization": session.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
+      method: 'DELETE',
+      headers: {
+        Authorization: session.token,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     };
     await fetch(`https://flighter-hw7.herokuapp.com/api/bookings/${id}`, options)
-      .then(res => res.ok ? res.json() : new Error("Failed!"))
-      .then(res => {
+      .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+      .then((res) => {
         getBookings();
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
     getBookings();
   }
 
   async function onClickShowBookingInfo(id) {
     const options = {
-      "method": "GET",
-      "headers": {
-        "Authorization": session.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
+      method: 'GET',
+      headers: {
+        Authorization: session.token,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     };
     await fetch(`https://flighter-hw7.herokuapp.com/api/bookings/${id}`, options)
-      .then(res => res.ok ? res.json() : new Error("Failed!"))
-      .then(res => {
+      .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+      .then((res) => {
         setBookingInfoData(res.booking);
         setShowBookingInfo(true);
         console.log(res.booking);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   async function onClickShowFlightInfo(id) {
     const options = {
-      "method": "GET",
-      "headers": {
-        "Authorization": session.token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
+      method: 'GET',
+      headers: {
+        Authorization: session.token,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     };
     await fetch(`https://flighter-hw7.herokuapp.com/api/flights/${id}`, options)
-      .then(res => res.ok ? res.json() : new Error("Failed!"))
-      .then(res => {
+      .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+      .then((res) => {
         console.log(res.flight);
         setFlightDataInfo(res.flight);
         setShowFlightInfo(true);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   return (
     <div>
       {!loggedIn && (
         <div id="logIn">
-          <input id="email" type="email" name="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)}></input>
-          <input id="password" type="password" name="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)}></input>
+          <input id="email" type="email" name="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+          <input id="password" type="password" name="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
           <button onClick={logIn}>Log in!</button>
         </div>
       )}
       {loggedIn && (
         <div id="wrapper">
           <div id="userInfo">
-            <h1>Hi {session.user.first_name} {session.user.last_name}<span className="id">#{session.user.id} ({session.user.email})</span><button name="edit" onClick={() => setEdit(!edit)} title="Edit your setting"><img src="https://image.flaticon.com/icons/png/512/40/40031.png" height="25pt" /></button></h1>
+            <h1>Hi {session.user.first_name} {session.user.last_name}
+              <span className="id">#{session.user.id} ({session.user.email})</span>
+              <button name="edit" onClick={() => setEdit(!edit)} title="Edit your setting">
+                <img alt="Settings" src="https://image.flaticon.com/icons/png/512/40/40031.png" height="25pt" />
+              </button>
+            </h1>
             {edit && (
               <div id="edit">
                 <div id="firstName">
                   <span>first name</span>
-                  <input name="first_name" onChange={e => setEditFName(e.target.value)} value={editFName}></input>
+                  <input name="first_name" onChange={(e) => setEditFName(e.target.value)} value={editFName} />
                 </div>
                 <div id="lastName">
                   <span>last name</span>
-                  <input name="last_name" onChange={e => setEditLName(e.target.value)} value={editLName}></input>
+                  <input name="last_name" onChange={(e) => setEditLName(e.target.value)} value={editLName} />
                 </div>
                 <div id="email">
                   <span>email</span>
-                  <input type="email" name="email" onChange={e => setEditEmail(e.target.value)} value={editEmail}></input>
+                  <input type="email" name="email" onChange={(e) => setEditEmail(e.target.value)} value={editEmail} />
                 </div>
                 <div id="password">
                   <span>password</span>
-                  <input type="password" name="first_name" onChange={e => setEditPassword(e.target.value)} value={editPassword}></input>
+                  <input type="password" name="first_name" onChange={(e) => setEditPassword(e.target.value)} value={editPassword} />
                 </div>
                 <div id="passwordAgain">
                   <span>password (again)</span>
-                  <input type="password" name="first_name" onChange={e => setEditPasswordA(e.target.value)} value={editPasswordA}></input>
+                  <input type="password" name="first_name" onChange={(e) => setEditPasswordA(e.target.value)} value={editPasswordA} />
                 </div>
                 <button onClick={editData}>Edit</button>
               </div>
@@ -249,9 +263,11 @@ function HelloWorld() {
             {bookings.length ? (
               <div>
                 <ol>
-                  {bookings.map(booking => (
+                  {bookings.map((booking) => (
                     <li key={booking.id}>
-                      {booking.flight.name} <span className="showInfo" onClick={onClickShowBookingInfo.bind(this, booking.id)}>Show info</span> <span className="remove" onClick={onClickRemoveBooking.bind(this, booking.id)}>Remove booking</span>
+                      {booking.flight.name}
+                      <span className="showInfo" onClick={onClickShowBookingInfo.bind(this, booking.id)}> Show info </span>
+                      <span className="remove" onClick={onClickRemoveBooking.bind(this, booking.id)}> Remove booking </span>
                       {showBookingInfo && bookingInfoData.id === booking.id && (
                         <ul>
                           <li>no_of_seats: {bookingInfoData.no_of_seats}</li>
@@ -264,28 +280,28 @@ function HelloWorld() {
                 </ol>
               </div>
             ) : (
-                <button onClick={getBookings}>Get my bookings!</button>
-              )}
-              <div className="add" onClick={() => setAddBooking(!addBooking)}>Add booking</div>
-              {addBooking && (
-                <ul>
-                  {flights.map(flight => (
-                    <li key={flight.id}>
-                      {JSON.stringify(flight)}
-                      {flight.name} <input placeholder="No. of seats" id={flight.id}></input> <span className="add" onClick={onClickAddBooking.bind(this, flight.id, (flight.no_of_seats - flight.no_of_booked_seats))}>Add booking</span> <span className="showInfo" onClick={onClickShowFlightInfo.bind(this, flight.id)}>Flight info</span>
-                      {showFlightInfo && flightDataInfo.id === flight.id && (
-                        <ul>
-                          <li>company name: {flightDataInfo.company_name}#{flightDataInfo.company_id}</li>
-                          <li>base price: {flightDataInfo.base_price}</li>
-                          <li>flys at: {flightDataInfo.flys_at}</li>
-                          <li>lands at: {flightDataInfo.lands_at}</li>
+              <button onClick={getBookings}>Get my bookings!</button>
+            )}
+            <div className="add" onClick={() => setAddBooking(!addBooking)}>Add booking</div>
+            {addBooking && (
+              <ul>
+                {flights.map((flight) => (
+                  <li key={flight.id}>
+                    {JSON.stringify(flight)}
+                    {flight.name} <input placeholder="No. of seats" id={flight.id} /> <span className="add" onClick={onClickAddBooking.bind(this, flight.id, (flight.no_of_seats - flight.no_of_booked_seats))}>Add booking</span> <span className="showInfo" onClick={onClickShowFlightInfo.bind(this, flight.id)}>Flight info</span>
+                    {showFlightInfo && flightDataInfo.id === flight.id && (
+                      <ul>
+                        <li>company name: {flightDataInfo.company_name}#{flightDataInfo.company_id}</li>
+                        <li>base price: {flightDataInfo.base_price}</li>
+                        <li>flys at: {flightDataInfo.flys_at}</li>
+                        <li>lands at: {flightDataInfo.lands_at}</li>
 
-                        </ul>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              )}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
             <hr />
           </div>
         </div>
