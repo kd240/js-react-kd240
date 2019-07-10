@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useLocalStorage } from 'react-use';
 import './style.css';
+import { async } from 'q';
 
 function HelloWorld() {
   const [session, setSession] = useLocalStorage('session', "");
@@ -19,6 +20,8 @@ function HelloWorld() {
   const [bookings, setBookings] = useState([]);
   const [showBookingInfo, setShowBookingInfo] = useState(false);
   const [bookingInfoData, setBookingInfoData] = useState({});
+  const [showFlightInfo, setShowFlightInfo] = useState(false);
+  const [flightDataInfo, setFlightDataInfo] = useState({});
 
   useEffect(() => {
     async function fetchFlights() {
@@ -184,6 +187,25 @@ function HelloWorld() {
       .catch(err => console.error(err));
   }
 
+  async function onClickShowFlightInfo(id) {
+    const options = {
+      "method": "GET",
+      "headers": {
+        "Authorization": session.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    await fetch(`https://flighter-hw7.herokuapp.com/api/flights/${id}`, options)
+      .then(res => res.ok ? res.json() : new Error("Failed!"))
+      .then(res => {
+        console.log(res.flight);
+        setFlightDataInfo(res.flight);
+        setShowFlightInfo(true);
+      })
+      .catch(err => console.error(err));
+  }
+
   return (
     <div>
       {!loggedIn && (
@@ -252,7 +274,16 @@ function HelloWorld() {
                 <ul>
                   {flights.map(flight => (
                     <li key={flight.id}>
-                      {flight.name} <input placeholder="No. of seats" id={flight.id}></input> <span className="add" onClick={onClickAddBooking.bind(this, flight.id)}>Add flight</span>
+                      {flight.name} <input placeholder="No. of seats" id={flight.id}></input> <span className="add" onClick={onClickAddBooking.bind(this, flight.id)}>Add booking</span> <span className="showInfo" onClick={onClickShowFlightInfo.bind(this, flight.id)}>Flight info</span>
+                      {showFlightInfo && flightDataInfo.id === flight.id && (
+                        <ul>
+                          <li>company name: {flightDataInfo.company_name}#{flightDataInfo.company_id}</li>
+                          <li>base price: {flightDataInfo.base_price}</li>
+                          <li>flys at: {flightDataInfo.flys_at}</li>
+                          <li>lands at: {flightDataInfo.lands_at}</li>
+
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
