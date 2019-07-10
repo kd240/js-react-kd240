@@ -1,0 +1,12 @@
+{
+    "session": {
+        "token": "TeKxQ77XeoW6hooF5H3L2opQ",
+        "user": {
+            "id": 11,
+            "email": "kd@example.com",
+            "first_name": "Alexis",
+            "last_name": "Olson",
+            "password": "secret"
+        }
+    }
+}
