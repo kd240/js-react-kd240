@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './style.css';
 import { useLocalStorage } from 'react-use';
+import './style.css';
 
 const url = 'https://flighter-hw7.herokuapp.com/api/flights';
 const options = {
   method: 'GET',
   headers: {
-    "Authorization": "TeKxQ77XeoW6hooF5H3L2opQ",
-    "Accept": "application/json",
-    "Content-Type": "application/json"
+    Authorization: 'TeKxQ77XeoW6hooF5H3L2opQ',
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
   }
 }
 
@@ -17,14 +17,14 @@ function HelloWorld() {
   const [favorites, setFavorites] = useLocalStorage('favorites', []);
   const [fetchedData, setFetchedData] = React.useState(favorites);
   const [showData, setShowData] = React.useState(fetchedData);
-  const [searchValue, setSearchValue] = React.useState("");
+  const [searchValue, setSearchValue] = React.useState('');
   const [details, setDetails] = React.useState({ selected: false });
   const [selectedItem, setSelectedItem] = React.useState('name');
 
   React.useEffect(() => {
     async function fetchData() {
       await fetch(url, options)
-        .then(res => res.ok ? res.json() : new Error("Fetch failed"))
+        .then(res => res.ok ? res.json() : new Error('Fetch failed'))
         .then(data => {
           let newData = [...fetchedData];
           data.flights
@@ -76,7 +76,6 @@ function HelloWorld() {
   }
 
   function formatDate(date) {
-    // flys_at: "2019-03-05T08:35:28.958Z"
     const year = date.substring(0, 4);
     const month = date.substring(5, 7);
     const day = date.substring(8, 10);
@@ -116,8 +115,8 @@ function HelloWorld() {
               <td>{formatDate(item.lands_at)}</td>
               <td>{item.current_price}</td>
               <td>
-                <button onClick={addToLocalStorage} title={favorites.includes(item) ? "Remove form favorites" : "Add to favorites"}>
-                  {favorites.includes(item) ? "❤️" : "️💔"}
+                <button onClick={addToLocalStorage} title={favorites.includes(item) ? 'Remove form favorites' : 'Add to favorites'}>
+                  {favorites.includes(item) ? '❤️' : '️💔'}
                 </button>
               </td>
             </tr>
