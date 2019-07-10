@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useLocalStorage } from 'react-use';
 import './style.css';
-import { async } from 'q';
 
 function HelloWorld() {
   const [session, setSession] = useLocalStorage('session', "");
@@ -18,6 +17,8 @@ function HelloWorld() {
   const [addBooking, setAddBooking] = useState(false);
   const [flights, setFlights] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [showBookingInfo, setShowBookingInfo] = useState(false);
+  const [bookingInfoData, setBookingInfoData] = useState({});
 
   useEffect(() => {
     async function fetchFlights() {
@@ -35,8 +36,8 @@ function HelloWorld() {
         })
         .catch(err => console.error(err));
     }
-    fetchFlights()
-  }, []);
+    if(session) fetchFlights()
+  }, [session]);
 
   async function logIn() {
     const options = {
@@ -53,14 +54,16 @@ function HelloWorld() {
       }
     };
     await fetch('https://flighter-hw7.herokuapp.com/api/session', options)
-      .then(res => res.ok ? res.json() : new Error("Failed!"))
+      .then(async (res) => res.ok ? await res.json() : new Error("Failed!"))
       .then(res => {
         if (res.session) {
           setSession(res.session);
           setLoggedIn(true);
-          setEditFName(session.user.first_name);
-          setEditLName(session.user.last_name);
-          setEditEmail(session.user.email);
+          setEditFName(res.session.user.first_name);
+          setEditLName(res.session.user.last_name);
+          setEditEmail(res.session.user.email);
+        } else {
+          alert('Incorrect email and/or password!');
         }
       })
       .catch(err => console.error(err));
@@ -138,7 +141,7 @@ function HelloWorld() {
     await fetch('https://flighter-hw7.herokuapp.com/api/bookings', options)
       .then(res => res.ok ? res.json() : new Error("Failed!"))
       .then(res => {
-        console.log(res)
+        console.log(res)  
       })
       .catch(err => console.error(err));
     getBookings();
@@ -156,11 +159,29 @@ function HelloWorld() {
     await fetch(`https://flighter-hw7.herokuapp.com/api/bookings/${id}`, options)
       .then(res => res.ok ? res.json() : new Error("Failed!"))
       .then(res => {
-        console.log(res)
         getBookings();
       })
       .catch(err => console.error(err));
     getBookings();
+  }
+
+  async function onClickShowBookingInfo(id) {
+    const options = {
+      "method": "GET",
+      "headers": {
+        "Authorization": session.token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    await fetch(`https://flighter-hw7.herokuapp.com/api/bookings/${id}`, options)
+      .then(res => res.ok ? res.json() : new Error("Failed!"))
+      .then(res => {
+        setBookingInfoData(res.booking);
+        setShowBookingInfo(true);
+        console.log(res.booking);
+      })
+      .catch(err => console.error(err));
   }
 
   return (
@@ -211,7 +232,14 @@ function HelloWorld() {
                 <ol>
                   {bookings.map(booking => (
                     <li key={booking.id}>
-                      {booking.flight.name} {/* <span className="showInfo">Show info</span> */} <span className="remove" onClick={onClickRemoveBooking.bind(this, booking.id)}>Remove booking</span>
+                      {booking.flight.name} <span className="showInfo" onClick={onClickShowBookingInfo.bind(this, booking.id)}>Show info</span> <span className="remove" onClick={onClickRemoveBooking.bind(this, booking.id)}>Remove booking</span>
+                      {showBookingInfo && bookingInfoData.id === booking.id && (
+                        <ul>
+                          <li>no_of_seats: {bookingInfoData.no_of_seats}</li>
+                          <li>seat_price: {bookingInfoData.seat_price}</li>
+                          <li>total_price: {bookingInfoData.total_price}</li>
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ol>

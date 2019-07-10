@@ -16,8 +16,13 @@
     text-decoration: underline;
     cursor: pointer;
 }
-.showInfo, .add {
+.showInfo {
     color: lightseagreen;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.add {
+    color: blue;
     text-decoration: underline;
     cursor: pointer;
 }
