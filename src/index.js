@@ -126,7 +126,11 @@ function HelloWorld() {
       .catch(err => console.error(err));
   }
 
-  async function onClickAddBooking(id) {
+  async function onClickAddBooking(id, noOfFreeSeats) {
+    if(noOfFreeSeats < Number(document.getElementById(id).value)) {
+      alert("Not enought seats available!");
+      return;
+    }
     const options = {
       "method": "POST",
       "body": JSON.stringify({
@@ -141,13 +145,6 @@ function HelloWorld() {
         "Accept": "application/json"
       }
     };
-    await fetch('https://flighter-hw7.herokuapp.com/api/bookings', options)
-      .then(res => res.ok ? res.json() : new Error("Failed!"))
-      .then(res => {
-        console.log(res)  
-      })
-      .catch(err => console.error(err));
-    getBookings();
   }
 
   async function onClickRemoveBooking(id) {
@@ -274,7 +271,8 @@ function HelloWorld() {
                 <ul>
                   {flights.map(flight => (
                     <li key={flight.id}>
-                      {flight.name} <input placeholder="No. of seats" id={flight.id}></input> <span className="add" onClick={onClickAddBooking.bind(this, flight.id)}>Add booking</span> <span className="showInfo" onClick={onClickShowFlightInfo.bind(this, flight.id)}>Flight info</span>
+                      {JSON.stringify(flight)}
+                      {flight.name} <input placeholder="No. of seats" id={flight.id}></input> <span className="add" onClick={onClickAddBooking.bind(this, flight.id, (flight.no_of_seats - flight.no_of_booked_seats))}>Add booking</span> <span className="showInfo" onClick={onClickShowFlightInfo.bind(this, flight.id)}>Flight info</span>
                       {showFlightInfo && flightDataInfo.id === flight.id && (
                         <ul>
                           <li>company name: {flightDataInfo.company_name}#{flightDataInfo.company_id}</li>
