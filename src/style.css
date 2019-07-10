@@ -11,3 +11,13 @@
     background: none;
     cursor: pointer;
 }
+.remove {
+    color: crimson;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.showInfo, .add {
+    color: lightseagreen;
+    text-decoration: underline;
+    cursor: pointer;
+}
