@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -41,7 +43,9 @@ function HelloWorld() {
         .then((res) => {
           setFlights(res.flights);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error(err);
+        });
     }
     if (session) {
       fetchFlights();
@@ -154,6 +158,13 @@ function HelloWorld() {
         Accept: 'application/json',
       },
     };
+    await fetch('https://flighter-hw7.herokuapp.com/api/bookings', options)
+      .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.error(err));
+    getBookings();
   }
 
   async function onClickRemoveBooking(id) {
@@ -168,6 +179,7 @@ function HelloWorld() {
     await fetch(`https://flighter-hw7.herokuapp.com/api/bookings/${id}`, options)
       .then((res) => (res.ok ? res.json() : new Error('Failed!')))
       .then((res) => {
+        console.log(res);
         getBookings();
       })
       .catch((err) => console.error(err));
@@ -287,7 +299,6 @@ function HelloWorld() {
               <ul>
                 {flights.map((flight) => (
                   <li key={flight.id}>
-                    {JSON.stringify(flight)}
                     {flight.name} <input placeholder="No. of seats" id={flight.id} /> <span className="add" onClick={onClickAddBooking.bind(this, flight.id, (flight.no_of_seats - flight.no_of_booked_seats))}>Add booking</span> <span className="showInfo" onClick={onClickShowFlightInfo.bind(this, flight.id)}>Flight info</span>
                     {showFlightInfo && flightDataInfo.id === flight.id && (
                       <ul>
@@ -295,7 +306,6 @@ function HelloWorld() {
                         <li>base price: {flightDataInfo.base_price}</li>
                         <li>flys at: {flightDataInfo.flys_at}</li>
                         <li>lands at: {flightDataInfo.lands_at}</li>
-
                       </ul>
                     )}
                   </li>
