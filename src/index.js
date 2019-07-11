@@ -7,7 +7,7 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { useLocalStorage } from 'react-use';
+import { useLocalStorage, useSetState } from 'react-use';
 import './style.css';
 
 function HelloWorld() {
@@ -15,19 +15,21 @@ function HelloWorld() {
   const [loggedIn, setLoggedIn] = useState(session);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [edit, setEdit] = useState(false);
-  const [editFName, setEditFName] = useState(loggedIn ? session.user.first_name : '');
-  const [editLName, setEditLName] = useState(loggedIn ? session.user.last_name : '');
-  const [editEmail, setEditEmail] = useState(loggedIn ? session.user.email : '');
-  const [editPassword, setEditPassword] = useState('');
-  const [editPasswordA, setEditPasswordA] = useState('');
+  const [edit, setEdit] = useSetState({
+    enabled: false,
+    firstName: (loggedIn ? session.user.first_name : ''),
+    lastName: (loggedIn ? session.user.last_name : ''),
+    email: (loggedIn ? session.user.email : ''),
+    password: '',
+    passwordCheck: '',
+  });
   const [addBooking, setAddBooking] = useState(false);
   const [flights, setFlights] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [showBookingInfo, setShowBookingInfo] = useState(false);
   const [bookingInfoData, setBookingInfoData] = useState({});
   const [showFlightInfo, setShowFlightInfo] = useState(false);
-  const [flightDataInfo, setFlightDataInfo] = useState({});
+  const [flightInfoData, setFlightInfoData] = useState({});
 
   useEffect(() => {
     async function fetchFlights() {
@@ -47,7 +49,7 @@ function HelloWorld() {
           console.error(err);
         });
     }
-    if (session) {
+    if (loggedIn) {
       fetchFlights();
     }
   }, [session]);
@@ -72,9 +74,11 @@ function HelloWorld() {
         if (res.session) {
           setSession(res.session);
           setLoggedIn(true);
-          setEditFName(res.session.user.first_name);
-          setEditLName(res.session.user.last_name);
-          setEditEmail(res.session.user.email);
+          setEdit({
+            firstName: res.session.user.first_name,
+            lastName: res.session.user.last_name,
+            email: res.session.user.email,
+          });
         } else {
           alert('Incorrect email and/or password!');
         }
@@ -88,17 +92,17 @@ function HelloWorld() {
   }
 
   async function editData() {
-    if (editPassword !== editPasswordA) {
+    if (edit.password !== edit.passwordCheck) {
       alert('Passwords don\'t match');
     } else {
       const options = {
         method: 'PUT',
         body: JSON.stringify({
           user: {
-            email: editEmail,
-            first_name: editFName,
-            last_name: editLName,
-            password: editPassword,
+            email: edit.email,
+            first_name: edit.firstName,
+            last_name: edit.lastName,
+            password: edit.password,
           },
         }),
         headers: {
@@ -110,8 +114,10 @@ function HelloWorld() {
       await fetch(`https://flighter-hw7.herokuapp.com/api/users/${session.user.id}`, options)
         .then((res) => (res.ok ? res.json() : new Error('Failed!')))
         .then((res) => {
-          console.log(res);
-          setSession({ token: session.token, user: res.user });
+          setSession({ 
+            token: session.token,
+            user: res.user,
+          });
           alert('User updated!');
         })
         .catch((err) => console.error(err));
@@ -218,7 +224,7 @@ function HelloWorld() {
       .then((res) => (res.ok ? res.json() : new Error('Failed!')))
       .then((res) => {
         console.log(res.flight);
-        setFlightDataInfo(res.flight);
+        setFlightInfoData(res.flight);
         setShowFlightInfo(true);
       })
       .catch((err) => console.error(err));
@@ -238,31 +244,31 @@ function HelloWorld() {
           <div id="userInfo">
             <h1>Hi {session.user.first_name} {session.user.last_name}
               <span className="id">#{session.user.id} ({session.user.email})</span>
-              <button name="edit" onClick={() => setEdit(!edit)} title="Edit your setting">
+              <button name="edit" onClick={() => setEdit({enabled: !edit.enabled})} title="Edit your setting">
                 <img alt="Settings" src="https://image.flaticon.com/icons/png/512/40/40031.png" height="25pt" />
               </button>
             </h1>
-            {edit && (
+            {edit.enabled && (
               <div id="edit">
                 <div id="firstName">
                   <span>first name</span>
-                  <input name="first_name" onChange={(e) => setEditFName(e.target.value)} value={editFName} />
+                  <input name="first_name" onChange={(e) => setEdit({firstName: e.target.value})} value={edit.firstName} />
                 </div>
                 <div id="lastName">
                   <span>last name</span>
-                  <input name="last_name" onChange={(e) => setEditLName(e.target.value)} value={editLName} />
+                  <input name="last_name" onChange={(e) => setEdit({lastName: e.target.value})} value={edit.lastName} />
                 </div>
                 <div id="email">
                   <span>email</span>
-                  <input type="email" name="email" onChange={(e) => setEditEmail(e.target.value)} value={editEmail} />
+                  <input type="email" name="email" onChange={(e) => setEdit({email: e.target.value})} value={edit.email} />
                 </div>
                 <div id="password">
                   <span>password</span>
-                  <input type="password" name="first_name" onChange={(e) => setEditPassword(e.target.value)} value={editPassword} />
+                  <input type="password" name="first_name" onChange={(e) => setEdit({password: e.target.value})} value={edit.password} />
                 </div>
                 <div id="passwordAgain">
                   <span>password (again)</span>
-                  <input type="password" name="first_name" onChange={(e) => setEditPasswordA(e.target.value)} value={editPasswordA} />
+                  <input type="password" name="first_name" onChange={(e) => setEdit({passwordCheck: e.target.value})} value={edit.passwordCheck} />
                 </div>
                 <button onClick={editData}>Edit</button>
               </div>
@@ -300,12 +306,12 @@ function HelloWorld() {
                 {flights.map((flight) => (
                   <li key={flight.id}>
                     {flight.name} <input placeholder="No. of seats" id={flight.id} /> <span className="add" onClick={onClickAddBooking.bind(this, flight.id, (flight.no_of_seats - flight.no_of_booked_seats))}>Add booking</span> <span className="showInfo" onClick={onClickShowFlightInfo.bind(this, flight.id)}>Flight info</span>
-                    {showFlightInfo && flightDataInfo.id === flight.id && (
+                    {showFlightInfo && flightInfoData.id === flight.id && (
                       <ul>
-                        <li>company name: {flightDataInfo.company_name}#{flightDataInfo.company_id}</li>
-                        <li>base price: {flightDataInfo.base_price}</li>
-                        <li>flys at: {flightDataInfo.flys_at}</li>
-                        <li>lands at: {flightDataInfo.lands_at}</li>
+                        <li>company name: {flightInfoData.company_name}#{flightInfoData.company_id}</li>
+                        <li>base price: {flightInfoData.base_price}</li>
+                        <li>flys at: {flightInfoData.flys_at}</li>
+                        <li>lands at: {flightInfoData.lands_at}</li>
                       </ul>
                     )}
                   </li>
