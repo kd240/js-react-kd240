@@ -114,7 +114,7 @@ function HelloWorld() {
       await fetch(`https://flighter-hw7.herokuapp.com/api/users/${session.user.id}`, options)
         .then((res) => (res.ok ? res.json() : new Error('Failed!')))
         .then((res) => {
-          setSession({ 
+          setSession({
             token: session.token,
             user: res.user,
           });
