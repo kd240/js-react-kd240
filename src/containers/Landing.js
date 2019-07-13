@@ -30,7 +30,7 @@ export function Landing() {
           <button className="search-btn">Search</button>
         </div>
         <div className="results-wrapper">
-          <FlightCard rating='4' />
+          <FlightCard id='1' rating='4' />
         </div>
       </div>
     </div>
