@@ -1,10 +1,14 @@
 {
   "name": "js-react",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "keyboardjs": "^2.5.1",
     "mobx": "^5.10.1",
     "mobx-react": "^6.1.1",
     "react": "^16.8.6",
+    "react-datepicker": "^2.8.0",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
@@ -23,13 +27,36 @@
       "browser": true
     },
     "rules": {
-      "react/jsx-one-expression-per-line": [0],
-      "react/button-has-type": [0],
-      "jsx-a11y/accessible-emoji": [0],
-      "react/no-multi-comp": [0],
-      "react/jsx-max-props-per-line": [0],
-      "react/jsx-sort-props": [0],
-      "react/jsx-fragments": [0]
+      "react/jsx-one-expression-per-line": [
+        0
+      ],
+      "react/button-has-type": [
+        0
+      ],
+      "jsx-a11y/accessible-emoji": [
+        0
+      ],
+      "react/no-multi-comp": [
+        0
+      ],
+      "react/jsx-max-props-per-line": [
+        0
+      ],
+      "react/jsx-sort-props": [
+        0
+      ],
+      "react/jsx-fragments": [
+        0
+      ],
+      "react/prop-types": [
+        0
+      ],
+      "react/jsx-max-depth": [
+        0
+      ],
+      "react/jsx-props-no-spreading": [
+        0
+      ]
     }
   },
   "browserslist": {
