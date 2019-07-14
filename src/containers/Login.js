@@ -23,7 +23,6 @@ export function Login() {
       });
       return;
     }
-    
     const options = {
       method: 'POST',
       body: JSON.stringify({

@@ -12,8 +12,14 @@ function printRatingStars(rating) {
   return stars;
 }
 
-export function FlightCard({ rating, id }) {
+export function FlightCard({
+  id, freeSeats, price, company, flysAt, rating,
+}) {
   const [optionState, optionToggle] = useToggle(false);
+
+  function formatTime(time) {
+    return time.substring(11, 16);
+  }
 
   return (
     <Link to={`/flight/${id}`}>
@@ -31,16 +37,16 @@ export function FlightCard({ rating, id }) {
         </div>
         <div className="image" />
         <div className="info">
-          <p className="departs">Departs at <span className="departs-time">09:45</span></p>
-          <p className="company">Croatia airlines</p>
+          <p className="departs">Departs at <span className="departs-time">{formatTime(flysAt, 1)}</span></p>
+          <p className="company">{company}</p>
           <span>
             <span className="rating">
               {printRatingStars(rating)}
             </span>
             <span className="divider"> | </span>
-            <span className="tickets">10 tickets available</span>
+            <span className="tickets">{freeSeats} tickets available</span>
           </span>
-          <p className="price">Price: <span className="price-value">60$</span></p>
+          <p className="price">Price: <span className="price-value">{price}$</span></p>
         </div>
       </div>
     </Link>

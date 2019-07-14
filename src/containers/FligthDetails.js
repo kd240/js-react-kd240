@@ -1,86 +1,139 @@
-import React from 'react';
-import { Header } from './Header';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWifi, faBabyCarriage, faTv, faUtensils } from '@fortawesome/free-solid-svg-icons';
-import { useToggle } from 'react-use';
+import { useToggle, useAsync, useSessionStorage, useLocalStorage } from 'react-use';
+import { Header } from './Header';
 
-export function FligthDetails({
-  match: {
-    params: {
-      id,
+function getFlight(id, sessionToken) {
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: sessionToken,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-  },
-}) {
+  };
+  return fetch(`https://flighter-hw7.herokuapp.com/api/flights/${id}`, options)
+    .then((res) => (res.ok ? res.json() : new Error('Failed!')));
+}
+
+function addNoOfSeatsOptions(maxSeats) {
+  const options = [];
+  const limit = maxSeats > 10 ? 10 : maxSeats;
+  for (let i = 1; i <= limit; i++) {
+    options.push(<option>{i}</option>)
+  }
+  return options;
+}
+
+export function FligthDetails({ match: { params: { id }}}) {
   const [bookState, bookToggle] = useToggle(false);
+  const [sessionS] = useSessionStorage('session', '');
+  const [sessionL] = useLocalStorage('session', '');
+  const sessionToken = sessionL ? sessionL.token : sessionS.token;
+  const [seats, setSeats] = useState(0)
+  const { loading, value } = useAsync(getFlight.bind(this, id, sessionToken));
+  
+  function selectChanged(e) {
+    setSeats(e.target.value);
+  }
+
+  function formatTime(date) {
+    const year = date.substring(0, 4);
+    const month = date.substring(5, 7);
+    const day = date.substring(8, 10);
+    const hours = date.substring(11, 13);
+    const minutes = date.substring(14, 16);
+    return `${day}. ${month}. ${year}, ${hours}:${minutes}`;
+  }
+
+  function handleBooking() {
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: sessionToken,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        booking: {
+          no_of_seats: seats, // eslint-disable-line
+          flight_id: id, // eslint-disable-line
+        },
+      }),
+    };
+    fetch('https://flighter-hw7.herokuapp.com/api/bookings', options)
+      .then((res) => (res.ok ? res.json() : new Error('Failed!')))
+      .then(() => {
+        alert('Booked!');
+      })
+  }
 
   return (
     <div className="wrapper">
       <Header />
-      <div className="details-container">
-        <h1>FlightName</h1>
-        <div className="info-container">
-          <div className="info">
-            <p className="info-title">Company:</p>
-            <p className="info-value">CompanyName</p>
+      {loading && (
+        <p>Loading</p>
+      )}
+      {value && (
+        <div className="details-container">
+          <h1>FlightName</h1>
+          <div className="info-container">
+            <div className="info">
+              <p className="info-title">Company:</p>
+              <p className="info-value">{value.flight.name}</p>
+            </div>
+            <div className="info">
+              <p>Available seats:</p>
+              <p>{value.flight.no_of_seats - value.flight.no_of_booked_seats}</p>
+            </div>
+            <div className="info">
+              <p>Departs at:</p>
+              <p>{formatTime(value.flight.flys_at)}</p>
+            </div>
+            <div className="info">
+              <p>Lands at:</p>
+              <p>{formatTime(value.flight.lands_at)}</p>
+            </div>
+            <div className="info">
+              <p>Base price:</p>
+              <p>{value.flight.base_price}</p>
+            </div>
+            <div className="info">
+              <p>Current price:</p>
+              <p>{value.flight.current_price}</p>
+            </div>
           </div>
-          <div className="info">
-            <p>Available seats:</p>
-            <p>AvailableSeats</p>
+          <div className="flight-img" />
+          <div className="flight-features">
+            <div className="feature">
+              <FontAwesomeIcon icon={faWifi} color={Math.random() >= 0.5 ? 'blue' : ''} />
+              <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Wireless internet</span>
+            </div>
+            <div className="feature">
+              <FontAwesomeIcon icon={faBabyCarriage} color={Math.random() >= 0.5 ? 'blue' : ''} />
+              <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Kids friendly</span>
+            </div>
+            <div className="feature">
+              <FontAwesomeIcon icon={faTv} color={Math.random() >= 0.5 ? 'blue' : ''} />
+              <span className={Math.random() >= 0.5 ? 'enabled' : ''}>TV available</span>
+            </div>
+            <div className="feature">
+              <FontAwesomeIcon icon={faUtensils} color={Math.random() >= 0.5 ? 'blue' : ''} />
+              <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Meal included</span>
+            </div>
           </div>
-          <div className="info">
-            <p>Departs at:</p>
-            <p>Time</p>
-          </div>
-          <div className="info">
-            <p>Lands at:</p>
-            <p>Time</p>
-          </div>
-          <div className="info">
-            <p>Base price:</p>
-            <p>Price</p>
-          </div>
-          <div className="info">
-            <p>Current price:</p>
-            <p>Price</p>
-          </div>
+          <button onClick={bookToggle}>Book now</button>
         </div>
-        <div className="flight-img" />
-        <div className="flight-features">
-          <div className="feature">
-            <FontAwesomeIcon icon={faWifi} color={Math.random() >= 0.5 ? 'blue' : ''} />
-            <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Wireless internet</span>
-          </div>
-          <div className="feature">
-            <FontAwesomeIcon icon={faBabyCarriage} color={Math.random() >= 0.5 ? 'blue' : ''} />
-            <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Kids friendly</span>
-          </div>
-          <div className="feature">
-            <FontAwesomeIcon icon={faTv} color={Math.random() >= 0.5 ? 'blue' : ''} />
-            <span className={Math.random() >= 0.5 ? 'enabled' : ''}>TV available</span>
-          </div>
-          <div className="feature">
-            <FontAwesomeIcon icon={faUtensils} color={Math.random() >= 0.5 ? 'blue' : ''} />
-            <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Meal included</span>
-          </div>
-        </div>
-        <button onClick={bookToggle}>Book now</button>
-      </div>
+      )}
       {bookState && (
         <div className="book">
           <h1>Create booking</h1>
           <p>Number of passangers</p>
-          <select>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
+          <select value={seats} onChange={selectChanged}>
+            {addNoOfSeatsOptions(value.flight.no_of_seats - value.flight.no_of_booked_seats)}
           </select>
+          <button onClick={handleBooking}>Confirm booking</button>
         </div>
       )}
     </div>

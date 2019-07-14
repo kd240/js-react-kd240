@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
-
 import { Header } from './Header';
 import { FlightCard } from './FligthCard';
+import { useAsync, useLocalStorage, useSessionStorage } from 'react-use';
+
+function getFlights(sessionToken) {
+  const options = {
+    headers: {
+      Authorization: sessionToken,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  };
+  return fetch('https://flighter-hw7.herokuapp.com/api/flights', options)
+    .then((res) => (res.ok ? res.json() : new Error('Failed!')));
+}
 
 export function Landing() {
+  const [sessionS] = useSessionStorage('session', '');
+  const [sessionL] = useLocalStorage('session', '');
+  const sessionToken = sessionL ? sessionL.token : sessionS.token;
+  const { loading, value } = useAsync(getFlights.bind(this, sessionToken));
+
   return (
     <div>
       <Header />
@@ -30,7 +46,20 @@ export function Landing() {
           <button className="search-btn">Search</button>
         </div>
         <div className="results-wrapper">
-          <FlightCard id='1' rating='4' />
+          {loading && (
+            <p>Loading</p>
+          )}
+          {value && value.flights
+            .map((flight) => (
+              <FlightCard
+                key={flight.id}
+                id={flight.id}
+                freeSeats={flight.no_of_seats - flight.no_of_booked_seats}
+                price={flight.current_price}
+                company={flight.company_name}
+                flysAt={flight.flys_at}
+                rating={Math.round(Math.random() * 5)}
+              />))}
         </div>
       </div>
     </div>
