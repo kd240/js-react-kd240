@@ -63,7 +63,7 @@ export function FligthDetails({
             <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Meal included</span>
           </div>
         </div>
-        <button className="button" onClick={bookToggle}>Book now</button>
+        <button onClick={bookToggle}>Book now</button>
       </div>
       {bookState && (
         <div className="book">
