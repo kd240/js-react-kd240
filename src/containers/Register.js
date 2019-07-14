@@ -17,21 +17,31 @@ export function Register() {
           placeholder="Full name"
           name="name"
           value={states.name}
-          onChange={handleChangeInput} />
+          onChange={handleChangeInput}
+        />
         <input
           className="text-input"
           placeholder="Username"
           name="email"
           value={states.email}
-          onChange={handleChangeInput} />
+          onChange={handleChangeInput}
+        />
         <input
           className="text-input"
           placeholder="Password"
           type="password"
           name="password"
           value={states.password}
-          onChange={handleChangeInput} />
-        <input className="text-input" placeholder="PConfirm password" type="password" name="passwordConfirm" value={states.passwordConfirm} onChange={handleChangeInput} />
+          onChange={handleChangeInput}
+        />
+        <input
+          className="text-input"
+          placeholder="Confirm password"
+          type="password"
+          name="passwordConfirm"
+          value={states.passwordConfirm}
+          onChange={handleChangeInput}
+        />
         <button>Register</button>
       </div>
     </div>

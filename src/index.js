@@ -1,22 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
-import { useLocalStorage } from 'react-use';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Landing } from './containers/Landing';
 import { Login } from './containers/Login';
 import { Register } from './containers/Register';
 import { FligthDetails } from './containers/FligthDetails';
+import { PrivateRoute } from './containers/PrivateRoute';
+import { useSessionStorage, useLocalStorage } from 'react-use';
 
 
 export function App() {
-  const { session, setSession } = useLocalStorage('session', '');
+  const [sessionS, setSessionS ] = useSessionStorage('session', '');
+  const [sessionL, setSessionL ] = useLocalStorage('session', '');
+  const isLogged = sessionS || sessionL;
 
   return (
     <Router>
-      <Route exact path="/" component={Landing} />
+      <PrivateRoute isLogged={isLogged} exact path="/" Component={Landing} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/flight/:id" component={FligthDetails} />
+      <PrivateRoute isLoggeed={isLogged} path="/flight/:id" Component={FligthDetails} />
     </Router>
   );
 }

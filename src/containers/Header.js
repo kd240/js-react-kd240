@@ -1,26 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { useSessionStorage, useLocalStorage } from 'react-use';
 
 export function Header() {
-  const isUserLoggedIn = JSON.parse(localStorage.session).token;
-  const firstName = isUserLoggedIn ? JSON.parse(localStorage.session).user.first_name : '';
+  const [sessionS, setSessionS] = useSessionStorage('session', '');
+  const [sessionL, setSessionL] = useLocalStorage('session', '');
+  
+  function getName() {
+    if (sessionL) {
+      return sessionL.user.first_name;
+    } else if (sessionS) {
+      return sessionS.user.first_name;
+    } return '';
+  }
+  
+  function handleLogout() {
+    setSessionL('');
+    setSessionS('');
+  }
 
   return (
     <div className="wrapper">
-      {isUserLoggedIn ? (
+      {(sessionL || sessionS) ? (
         <div>
-          <p>Hi, {firstName}</p>
-          <button>Logout</button>
+          <p>Hi, {getName()}</p>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
-        <div>
-          <Link to='/login'>
-            <button>Login</button>
-          </Link>
-          <Link to='/register'>
-            <button>Register</button>
-          </Link>
-        </div>
+        <Redirect to='/login' />
       )}
     </div>
   );
