@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSetState, useToggle, useSessionStorage, useLocalStorage } from 'react-use';
 
+import '../styles/login.css';
+
 export function Login() {
   const [states, setStates] = useSetState({ email: '', password: '', error: { email: false, password: false }});
   const [rememberState, rememberToggle] = useToggle(false);
@@ -10,7 +12,7 @@ export function Login() {
 
   function handleChangeInput(e) {
     setStates({ [e.target.name]: e.target.value });
-    setStates({ error: { [e.target.name]: false }});
+    setStates({ error: { ...states.error, [e.target.name]: false }});
   }
 
   async function handleLogin() {
@@ -20,7 +22,7 @@ export function Login() {
           email: !states.error.password,
           password: !states.error.password,
         },
-      });
+     });
       return;
     }
     const options = {
@@ -57,14 +59,21 @@ export function Login() {
       .catch((error) => console.log(error)); // eslint-disable-line
   }
 
+  function handleEnterPressed(e) {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  }
+
   return (
-    <div className="wrapper">
+    <div className="login-wrapper">
       {(sessionS || sessionL) && (
         <Redirect to="/" />
       )}
       <h1>Login</h1>
       <div className="form">
         <input
+          onKeyPress={handleEnterPressed}
           className="text-input"
           placeholder="Username"
           name="email"
@@ -75,6 +84,7 @@ export function Login() {
           <p className="error">Invalid username</p>
         )}
         <input
+          onKeyPress={handleEnterPressed}
           className="text-input"
           placeholder="Password"
           type="password"
@@ -85,13 +95,17 @@ export function Login() {
         {states.error.password && (
           <p className="error">Invalid password</p>
         )}
-        <input
-          className="checkbox"
-          type="checkbox"
-          onChange={rememberToggle}
-        />
-        <span>Remember me</span>
-        <button onClick={handleLogin}>Login</button>
+        <div className="remember">  
+          <label>
+            <input
+              className="checkbox"
+              type="checkbox"
+              onChange={rememberToggle}
+            />
+            <span>Remember me</span>
+          </label>
+        </div>
+        <button disabled={!(states.email && states.password)} onClick={handleLogin}>Login</button>
       </div>
       <div className="register">
         <h2>Don&apos;t have an account?</h2>

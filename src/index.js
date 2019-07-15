@@ -8,6 +8,8 @@ import { Register } from './containers/Register';
 import { FligthDetails } from './containers/FligthDetails';
 import { PrivateRoute } from './containers/PrivateRoute';
 
+import './styles/index.css';
+
 export function App() {
   const [sessionS] = useSessionStorage('session', '');
   const [sessionL] = useLocalStorage('session', '');

@@ -4,6 +4,8 @@ import { faWifi, faBabyCarriage, faTv, faUtensils } from '@fortawesome/free-soli
 import { useToggle, useAsync, useSessionStorage, useLocalStorage } from 'react-use';
 import { Header } from './Header';
 
+import '../styles/flightDetails.css';
+
 function getFlight(id, sessionToken) {
   const options = {
     method: 'GET',
@@ -77,11 +79,11 @@ export function FligthDetails({ match: { params: { id }}}) {
       )}
       {value && (
         <div className="details-container">
-          <h1>FlightName</h1>
+          <h1>{value.flight.name}</h1>
           <div className="info-container">
             <div className="info">
-              <p className="info-title">Company:</p>
-              <p className="info-value">{value.flight.name}</p>
+              <p>Company:</p>
+              <p>{value.flight.company_name}</p>
             </div>
             <div className="info">
               <p>Available seats:</p>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import { useAsync, useLocalStorage, useSessionStorage } from 'react-use';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Header } from './Header';
 import { FlightCard } from './FligthCard';
-import { useAsync, useLocalStorage, useSessionStorage } from 'react-use';
+
+import '../styles/landing.css';
 
 function getFlights(sessionToken) {
   const options = {
@@ -22,16 +24,22 @@ export function Landing() {
   const [sessionL] = useLocalStorage('session', '');
   const sessionToken = sessionL ? sessionL.token : sessionS.token;
   const { loading, value } = useAsync(getFlights.bind(this, sessionToken));
+  const [dateState, setDateState] = useState('');
+
+  function handleDatePickerChange(e) {
+    setDateState(e);
+  }
 
   return (
     <div>
       <Header />
-      <div className="wrapper">
+      <div className="landing-wrapper">
         <div className="search-wrapper">
           <h1>Find best flight for you and your friends!</h1>
-          <DatePicker dateFormat="dd. MMM yyyy." placeholderText="Pick date" />
+          <DatePicker selected={dateState} onChange={handleDatePickerChange} dateFormat="dd. MMM yyyy." placeholderText="Pick date" />
           <input placeholder="City" className="city-input" />
-          <select className="">
+          <select>
+            <option>No. persons</option>
             <option>1 person</option>
             <option>2 people</option>
             <option>3 people</option>

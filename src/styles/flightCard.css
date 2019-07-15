@@ -1,0 +1,81 @@
+.result-card {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (auto)[3];
+      grid-template-rows: repeat(3, auto);
+  background-color: white;
+}
+
+.result-card .options {
+  text-align: end;
+  font-size: 1.1em;
+  line-height: 2em;
+  padding: 0 1em;
+  position: relative;
+}
+
+.result-card .options .option-button {
+  cursor: pointer;
+}
+
+.result-card .options .option-menu {
+  position: absolute;
+  text-align: center;
+  right: 2em;
+  top: 1.9em;
+  background: white;
+  -webkit-box-shadow: #8c8c8c88 0 0 1px 1px;
+          box-shadow: #8c8c8c88 0 0 1px 1px;
+}
+
+.result-card .options .option-menu ul {
+  list-style: none;
+}
+
+.result-card .options .option-menu ul li {
+  cursor: pointer;
+  border-bottom: whitesmoke solid 1px;
+}
+
+.result-card .options .option-menu ul li:hover {
+  background: whitesmoke;
+}
+
+.result-card .image {
+  width: 100%;
+  height: calc(calc(100vw - 12em) / 3);
+  max-height: calc(calc(1250px - 12em) / 3);
+  background-image: url("https://amp.businessinsider.com/images/5b280a8c1ae66219008b5568-750-563.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+
+.result-card .info {
+  padding: 1em;
+  font-size: 1.1rem;
+}
+
+.result-card .info .departs {
+  margin-bottom: .9rem;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.result-card .info .company {
+  margin-bottom: .9rem;
+}
+
+.result-card .info .divider,
+.result-card .info .tickets {
+  color: gray;
+}
+
+.result-card .info .price {
+  margin-top: 1.5rem;
+}
+
+.result-card .info .price .price-value {
+  color: #0568FA;
+  text-decoration: underline;
+}
+/*# sourceMappingURL=flightCard.css.map */

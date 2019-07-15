@@ -1,0 +1,26 @@
+* {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+button {
+  background-color: #0568FA;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  line-height: 2em;
+  padding: 0 2em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:disabled {
+  background-color: #65A7FA;
+}
+h1 {
+  color: #0568FA;
+}
