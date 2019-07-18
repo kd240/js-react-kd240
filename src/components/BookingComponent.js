@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styles from '../styles/statusMessages.module.css';
 
@@ -11,7 +11,6 @@ export function BookingComponent({
 }) {
 
   function printSeatsOption() {
-    console.log(freeSeats);
     return (
       <select value={seatsSelected} onChange={handleSelectChanged}> {/* eslint-disable-line */}
         {Array

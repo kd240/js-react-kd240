@@ -25,17 +25,11 @@
       align-self: center;
   padding: 1.5em 0;
 }
-
-.landing-wrapper .search-wrapper .react-datepicker__input-container {
-  width: 100%;
-  height: 100%;
-}
-
 .landing-wrapper .search-wrapper .react-datepicker__input-container > input {
   width: 100%;
   font-size: 1rem;
   line-height: 2rem;
-  height: 100%;
+   height: 100%; 
 }
 
 .landing-wrapper .search-wrapper input, .landing-wrapper .search-wrapper select {
