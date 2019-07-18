@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { useAsync } from 'react-use';
-import { HeaderComponent } from '../components/HeaderComponent';
+import { HeaderContainer } from './HeaderContainer';
 import { Search } from '../components/SearchComponent';
 import { FlightCard } from '../components/FlightCard';
 
@@ -11,13 +11,6 @@ import { appState } from '../state/appState';
 
 function LandingContainer() {
   const { loading } = useAsync(getFlighs.bind(null, appState));
-
-  function handleLogout() {
-    appState.firstName = '';
-    appState.sessionToken = '';
-    localStorage.setItem('sessionToken', '');
-    localStorage.setItem('sessionName', '');
-  }
 
   function handleInputChange(e) {
     appState.flightFilter[e.target.name] = e.target.value;
@@ -33,10 +26,7 @@ function LandingContainer() {
 
   return (
     <div>
-      <HeaderComponent
-        handleLogout={handleLogout}
-        firstName={appState.firstName}
-      />
+      <HeaderContainer />
       <div className="landing-wrapper">
         <Search
           handleInputChange={handleInputChange}

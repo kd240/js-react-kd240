@@ -8,37 +8,35 @@ class AppState {
   // Flights & filter
   flights = [];
   filteredFlights = [];
-  flight = {};
   flightFilter = {
     date: '',
     city: '',
     freeSeats: '',
   }
-  applyFilter() {
-    this.filteredFlights = this.flights
-      .filter((flight) => {
-        let filterResult = true;
-        if (this.flightFilter.date) {
-          filterResult = (new Date(flight.flys_at)).toLocaleDateString() === (new Date(this.flightFilter.date)).toLocaleDateString();
-        }
-        if (this.flightFilter.city) {
-          filterResult = flight.name.includes(this.flightFilter.name);
-        }
-        if (this.flightFilter.freeSeats instanceof Number) {
-          filterResult = this.flightFilter.freeSeats < (flight.no_of_seats - flight.no_of_booked_seats);
-        }
-        return filterResult;
-      });
-  }
+  applyFilter = applyFilterFn;
+}
 
-  // Booking
-  bookingCreated = false;
+function applyFilterFn() {
+  this.filteredFlights = this.flights
+  .filter((flight) => {
+    let filterResult = true;
+    if (this.flightFilter.date) {
+      filterResult = (new Date(flight.flys_at)).toLocaleDateString() === (new Date(this.flightFilter.date)).toLocaleDateString();
+    }
+    if (this.flightFilter.city) {
+      filterResult = flight.name.includes(this.flightFilter.name);
+    }
+    if (this.flightFilter.freeSeats) {
+      filterResult = (Number(this.flightFilter.freeSeats) < (flight.no_of_seats - flight.no_of_booked_seats));
+    }
+    return filterResult;
+  });
 }
 
 decorate(AppState, {
   sessionToken: observable,
   flights: observable,
-  flight: observable,
+  filteredFlights: observable,
   flightFilter: observable,
 });
 
