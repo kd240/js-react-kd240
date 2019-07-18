@@ -1,71 +1,61 @@
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import { useAsync, useLocalStorage, useSessionStorage } from 'react-use';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Header } from './Header';
-import { FlightCard } from './FligthCard';
+import React from 'react';
+import { observer } from 'mobx-react';
+import { useAsync } from 'react-use';
+import { HeaderComponent } from '../components/HeaderComponent';
+import { Search } from '../components/SearchComponent';
+import { FlightCard } from '../components/FlightCard';
 
 import '../styles/landing.css';
+import { getFlighs } from '../services/flights';
+import { appState } from '../state/appState';
 
-function getFlights(sessionToken) {
-  const options = {
-    headers: {
-      Authorization: sessionToken,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  };
-  return fetch('https://flighter-hw7.herokuapp.com/api/flights', options)
-    .then((res) => (res.ok ? res.json() : new Error('Failed!')));
-}
+function LandingContainer() {
+  const { loading } = useAsync(getFlighs.bind(null, appState));
 
-export function Landing() {
-  const [sessionS] = useSessionStorage('session', '');
-  const [sessionL] = useLocalStorage('session', '');
-  const sessionToken = sessionL ? sessionL.token : sessionS.token;
-  const { loading, value } = useAsync(getFlights.bind(this, sessionToken));
-  const [dateState, setDateState] = useState('');
+  function handleLogout() {
+    appState.firstName = '';
+    appState.sessionToken = '';
+    localStorage.setItem('sessionToken', '');
+    localStorage.setItem('sessionName', '');
+  }
 
-  function handleDatePickerChange(e) {
-    setDateState(e);
+  function handleInputChange(e) {
+    appState.flightFilter[e.target.name] = e.target.value;
+  }
+
+  function handleSearch() {
+    appState.applyFilter();
+  }
+
+  function formatTime(time) {
+    return (new Date(time)).toLocaleTimeString();
   }
 
   return (
     <div>
-      <Header />
+      <HeaderComponent
+        handleLogout={handleLogout}
+        firstName={appState.firstName}
+      />
       <div className="landing-wrapper">
-        <div className="search-wrapper">
-          <h1>Find best flight for you and your friends!</h1>
-          <DatePicker selected={dateState} onChange={handleDatePickerChange} dateFormat="dd. MMM yyyy." placeholderText="Pick date" />
-          <input placeholder="City" className="city-input" />
-          <select>
-            <option>No. persons</option>
-            <option>1 person</option>
-            <option>2 people</option>
-            <option>3 people</option>
-            <option>4 people</option>
-            <option>5 people</option>
-            <option>6 people</option>
-            <option>7 people</option>
-            <option>8 people</option>
-            <option>9 people</option>
-            <option>10 people</option>
-          </select>
-          <button className="search-btn">Search</button>
-        </div>
+        <Search
+          handleInputChange={handleInputChange}
+          handleSearch={handleSearch}
+        />
         <div className="results-wrapper">
           {loading && (
             <p>Loading</p>
           )}
-          {value && value.flights
+          {appState.filteredFlights
             .map((flight) => (
               <FlightCard
                 key={flight.id}
                 id={flight.id}
+                name={flight.name}
                 freeSeats={flight.no_of_seats - flight.no_of_booked_seats}
                 price={flight.current_price}
                 company={flight.company_name}
-                flysAt={flight.flys_at}
+                time={formatTime(flight.flys_at)}
                 rating={Math.round(Math.random() * 5)}
               />))}
         </div>
@@ -73,3 +63,5 @@ export function Landing() {
     </div>
   );
 }
+
+export const Landing = observer(LandingContainer);

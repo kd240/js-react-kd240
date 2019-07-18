@@ -1,19 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useSessionStorage, useLocalStorage } from 'react-use';
+import { observer } from 'mobx-react';
 import { Landing } from './containers/Landing';
-import { Login } from './containers/Login';
-import { Register } from './containers/Register';
+import { Login } from './containers/LoginContainer';
 import { FligthDetails } from './containers/FligthDetails';
 import { PrivateRoute } from './containers/PrivateRoute';
 
 import './styles/index.css';
+import { appState } from './state/appState';
+import { Register } from './containers/RegisterContainer';
 
-export function App() {
-  const [sessionS] = useSessionStorage('session', '');
-  const [sessionL] = useLocalStorage('session', '');
-  const isLogged = Boolean(sessionS || sessionL);
+export function AppComponent() {
+  const isLogged = !!appState.sessionToken;
 
   return (
     <Router>
@@ -24,5 +23,7 @@ export function App() {
     </Router>
   );
 }
+
+export const App = observer(AppComponent);
 
 ReactDOM.render(<App />, document.getElementById('root'));

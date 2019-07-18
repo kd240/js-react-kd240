@@ -56,6 +56,9 @@
       ],
       "react/jsx-props-no-spreading": [
         0
+      ],
+      "jsx-a11y/no-onchange": [
+        0
       ]
     }
   },

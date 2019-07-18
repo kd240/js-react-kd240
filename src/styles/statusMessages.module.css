@@ -1,0 +1,14 @@
+.success {
+  background-color: #4BB543;
+  padding: 1rem;
+  line-height: 2em;
+  width: 100%;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  border-radius: 5px;
+}
+/*# sourceMappingURL=statusMessages.module.css.map */

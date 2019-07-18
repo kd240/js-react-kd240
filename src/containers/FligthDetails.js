@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWifi, faBabyCarriage, faTv, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { useToggle, useAsync, useSessionStorage, useLocalStorage } from 'react-use';
-import { Header } from './Header';
+import { HeaderComponent } from '../components/HeaderComponent';
 
 import '../styles/flightDetails.css';
 
@@ -19,13 +19,17 @@ function getFlight(id, sessionToken) {
     .then((res) => (res.ok ? res.json() : new Error('Failed!')));
 }
 
-function addNoOfSeatsOptions(maxSeats) {
-  const options = [];
-  const limit = maxSeats > 10 ? 10 : maxSeats;
-  for (let i = 1; i <= limit; i++) {
-    options.push(<option>{i}</option>)
-  }
-  return options;
+function printSeatsOption(maxSeats, selectChanged) {
+  return (
+    <select value={seats} onChange={selectChanged}> {/* eslint-disable-line */}
+      {Array
+        .from({ length: maxSeats > 10 ? 10 : maxSeats })
+        .map((el, i) => i)
+        .map((el) => (
+          <option key={el}>{el} persons</option>
+        ))}
+    </select>
+  );
 }
 
 export function FligthDetails({ match: { params: { id }}}) {
@@ -33,7 +37,7 @@ export function FligthDetails({ match: { params: { id }}}) {
   const [sessionS] = useSessionStorage('session', '');
   const [sessionL] = useLocalStorage('session', '');
   const sessionToken = sessionL ? sessionL.token : sessionS.token;
-  const [seats, setSeats] = useState(0)
+  const [seats, setSeats] = useState(0);
   const { loading, value } = useAsync(getFlight.bind(this, id, sessionToken));
   
   function selectChanged(e) {
@@ -67,13 +71,13 @@ export function FligthDetails({ match: { params: { id }}}) {
     fetch('https://flighter-hw7.herokuapp.com/api/bookings', options)
       .then((res) => (res.ok ? res.json() : new Error('Failed!')))
       .then(() => {
-        alert('Booked!');
-      })
+        alert('Booked!'); // eslint-disable-line
+      });
   }
 
   return (
     <div className="wrapper">
-      <Header />
+      <HeaderComponent />
       {loading && (
         <p>Loading</p>
       )}
@@ -132,9 +136,7 @@ export function FligthDetails({ match: { params: { id }}}) {
         <div className="book">
           <h1>Create booking</h1>
           <p>Number of passangers</p>
-          <select value={seats} onChange={selectChanged}>
-            {addNoOfSeatsOptions(value.flight.no_of_seats - value.flight.no_of_booked_seats)}
-          </select>
+          {printSeatsOption(value.flight.no_of_seats - value.flight.no_of_booked_seats, selectChanged)}
           <button onClick={handleBooking}>Confirm booking</button>
         </div>
       )}
