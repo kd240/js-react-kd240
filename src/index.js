@@ -27,11 +27,11 @@ export function AppComponent() {
 
   return (
     <Router>
-      <PrivateRoute isLogged={isLogged} exact path="/" Component={Landing} />
+      <PrivateRoute isLogged={isLogged} exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <PrivateRoute isLogged={isLogged} path="/flight/:id" Component={Flight} />
-      <PrivateRoute isLogged={isLogged} path="/flight/:id/book" Component={BookingModal} />
+      <PrivateRoute isLogged={isLogged} path="/flight/:id" component={Flight} />
+      <PrivateRoute isLogged={isLogged} path="/flight/:id/book" component={BookingModal} />
     </Router>
   );
 }
