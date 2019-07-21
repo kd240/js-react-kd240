@@ -26,6 +26,7 @@ function HelloWorld() {
       await fetch(url, options)
         .then(res => res.ok ? res.json() : new Error('Fetch failed'))
         .then(data => {
+          
           let newData = [...fetchedData];
           data.flights
             .filter(flight => !fetchedData.map(item => item.id).includes(flight.id))
