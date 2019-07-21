@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import { InputTextField } from './InputTextField';
 
-function Login({
+function LoginComponent({
   handleSubmit,
   handleTextInputChange,
   handleCheckboxInputChange,
@@ -18,15 +19,13 @@ function Login({
     <div className="login-wrapper">
       <h1>Login</h1>
       <form className="form" onSubmit={handleSubmit}>
-        <input
-          className="text-input"
+        <InputTextField
           placeholder="Username"
           name="email"
           value={inputValues.email}
           onChange={handleTextInputChange}
         />
-        <input
-          className="text-input"
+        <InputTextField
           placeholder="Password"
           type="password"
           name="password"
@@ -60,4 +59,4 @@ function Login({
   );
 }
 
-export const LoginComponent = observer(Login);
+export const LoginForm = observer(LoginComponent);

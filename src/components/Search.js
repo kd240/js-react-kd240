@@ -1,45 +1,36 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { appState } from '../state/appState';
+import { SelectElement } from './SelectElement';
+import { AppContext } from '../state/appContext';
 
 function SearchComponent({ handleInputChange, handleSearch }) {
 
-  function printSelect() {
-    return (
-      <select
-        name="freeSeats"
-        onChange={handleInputChange}
-        value={appState.flightFilter.freeSeats}
-      >
-        <option>No. persons</option>
-        <option>1</option>
-        {Array
-          .from({ length: 9 })
-          .map((el, i) => i + 2)
-          .map((el) => (
-            <option key={el}>{el}</option>
-          ))}
-      </select>
-    );
-  }
+  const { AppState } = React.useContext(AppContext);
 
   return (
     <div className="search-wrapper">
       <h1>Find best flight for you and your friends!</h1>
       <input
         name="date"
-        value={appState.flightFilter.date}
+        value={AppState.flightFilter.date}
         type="date"
         onChange={handleInputChange}
       />
       <input
         name="city"
-        value={appState.flightFilter.city}
+        value={AppState.flightFilter.city}
         placeholder="City"
         onChange={handleInputChange}
         className="city-input"
       />
-      {printSelect()}
+      <SelectElement
+        start={1}
+        size={10}
+        name="freeSeats"
+        value={AppState.flightFilter.freeSeats}
+        onChange={handleInputChange}
+        append={['No. persons']}
+      />
       <button className="search-btn" onClick={handleSearch}>Search</button>
     </div>
   );

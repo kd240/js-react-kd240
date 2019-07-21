@@ -1,12 +1,11 @@
-import { post } from "./API";
-import { appState } from "../state/appState";
+import { postAuthorized } from './API';
 
 const model = 'bookings';
 
 /**
  * If booking created successfully, appState.bookingCreated is set to true
- * @param {JSON} bookingInfo 
+ * @param {JSON} bookingInfo
  */
-export function createBooking(bookingInfo) {
-  post(model, bookingInfo).then(appState.bookingCreated = true);
+export function createBooking(bookingInfo, AppState) {
+  return postAuthorized(model, bookingInfo, AppState);
 }

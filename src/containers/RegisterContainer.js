@@ -3,7 +3,7 @@ import { useSetState } from 'react-use';
 import { observer } from 'mobx-react';
 
 import '../styles/register.css';
-import { RegisterComponent } from '../components/RegisterComponent';
+import { RegisterForm } from '../components/RegisterForm';
 import { createUser } from '../services/user';
 
 function RegisterContainer() {
@@ -14,23 +14,30 @@ function RegisterContainer() {
     password: '',
     passwordCheck: '',
   });
+
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useSetState({
+    firstName: '',
+    email: '',
+    password: '',
+    passwordCheck: '',
+  });
+
   function inputValidation() {
-    if (!(input.email.includes('.') && input.email.includes('@'))) {
-      setError('Enter valid username');
-      return false;
+    setError({});
+    if (input.firstName.length < 2) {
+      setError({ firstName: 'Enter valid first name' });
     }
-    if (input.password !== input.passwordCheck) {
-      setError('Passwords do not match');
-      return false;
+    if (!(input.email.includes('.') && input.email.includes('@'))) {
+      setError({ email: 'Enter valid username' });
     }
     if (input.password.length < 8) {
-      setError('Password too short');
-      return false;
+      setError({ password: 'Password too short' });
     }
-    setError('');
-    return true;
+    if (input.password !== input.passwordCheck) {
+      setError({ passwordCheck: 'Passwords do not match' });
+    }
+    return Object.keys(error).length === 0;
   }
 
   function handleSubmit(e) {
@@ -56,12 +63,12 @@ function RegisterContainer() {
     }
   }
 
-  function handleInputChange(e) {
-    setInput({ [e.target.name]: e.target.value });
+  function handleInputChange({ target }) {
+    setInput({ [target.name]: target.value });
   }
 
   return (
-    <RegisterComponent
+    <RegisterForm
       handleSubmit={handleSubmit}
       handleInputChange={handleInputChange}
       inputValues={input}

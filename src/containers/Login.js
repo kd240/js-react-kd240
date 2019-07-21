@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import { useSetState } from 'react-use';
+import { action } from 'mobx';
 
 import '../styles/login.css';
-import { LoginComponent } from '../components/LoginComponent';
+import { LoginForm } from '../components/LoginForm';
 import { getSessionToken } from '../services/session';
+import { AppContext } from '../state/appContext';
 
 function LoginContainer(props) {
+  const { AppState } = React.useContext(AppContext);
   const [input, setInput] = useSetState({
     email: '',
     password: '',
@@ -22,15 +25,15 @@ function LoginContainer(props) {
     setInput({ remember: !input.remember });
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = action(function(e) {
     e.preventDefault();
-    getSessionToken(input.email, input.password, input.remember)
+    getSessionToken(input.email, input.password, input.remember, AppState)
       .then(props.history.push.bind(null, '/'))
       .catch(() => setError('Invalid credentials'));
-  }
+  });
 
   return (
-    <LoginComponent
+    <LoginForm
       handleSubmit={handleSubmit}
       handleTextInputChange={handleTextInputChange}
       handleCheckboxInputChange={handleCheckboxInputChange}

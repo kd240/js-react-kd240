@@ -1,8 +1,9 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWifi, faBabyCarriage, faTv, faUtensils } from '@fortawesome/free-solid-svg-icons';
+import { observer } from 'mobx-react';
 
-export function FligthDetailsComponent({ flight, handleBookingToggle }) {
+function FligthDetailsComponent({ flight, openBookingModal }) {
 
   function formatTime(date) {
     return (new Date(date)).toLocaleDateString();
@@ -56,7 +57,9 @@ export function FligthDetailsComponent({ flight, handleBookingToggle }) {
           <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Meal included</span>
         </div>
       </div>
-      <button onClick={handleBookingToggle}>Book now</button>
+      <button onClick={openBookingModal}>Book now</button>
     </div>
   );
 }
+
+export const FligthDetails = observer(FligthDetailsComponent);

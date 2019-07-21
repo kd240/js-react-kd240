@@ -1,24 +1,12 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useToggle } from 'react-use';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 import '../styles/flightCard.css';
+import { Rating } from './Rating';
 
-function printRatingStars(rating) {
-  return (
-    <span className="rating">
-      {Array
-        .from({ length: rating })
-        .map((el, i) => (
-          <FontAwesomeIcon key={i} icon={faStar} color="#FFD700" /> // eslint-disable-line
-        ))}
-    </span>
-  );
-}
-
-export function FlightCard({
+export function FlightCardComponent({
   id, freeSeats, price, company, time, rating,
 }) {
   const [optionState, optionToggle] = useToggle(false);
@@ -30,7 +18,7 @@ export function FlightCard({
         {optionState && (
           <div className="option-menu">
             <ul>
-              <li>Book</li>
+              <li><Link to={`/flight/${id}`}>Book</Link></li>
               <li>Add to wishlist</li>
             </ul>
           </div>
@@ -42,7 +30,7 @@ export function FlightCard({
           <p className="departs">Departs at <span className="departs-time">{time}</span></p>
           <p className="company">{company}</p>
           <span>
-            {printRatingStars(rating)}
+            <Rating rating={rating} />
             <span className="divider"> | </span>
             <span className="tickets">{freeSeats} tickets available</span>
           </span>
@@ -52,3 +40,5 @@ export function FlightCard({
     </div>
   );
 }
+
+export const FlightCard = observer(FlightCardComponent);

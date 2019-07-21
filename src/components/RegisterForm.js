@@ -3,8 +3,9 @@ import { observer } from 'mobx-react';
 
 import styles from '../styles/statusMessages.module.css';
 import '../styles/register.css';
+import { InputTextField } from './InputTextField';
 
-function Register({
+function RegisterComponent({
   handleSubmit,
   handleInputChange,
   inputValues,
@@ -20,49 +21,44 @@ function Register({
     <div className="register-wrapper">
       <h1>Register</h1>
       <form className="form" onSubmit={handleSubmit}>
-        <input
-          className="text-input"
+        <InputTextField
           placeholder="First name"
           name="firstName"
           value={inputValues.firstName}
           onChange={handleInputChange}
+          error={error.firstName}
         />
-        <input
-          className="text-input"
+        <InputTextField
           placeholder="Last name"
           name="lastName"
           value={inputValues.lastName}
           onChange={handleInputChange}
+          error={error.lastName}
         />
-        <input
-          className="text-input"
+        <InputTextField
           placeholder="Username"
           name="email"
           value={inputValues.email}
           onChange={handleInputChange}
+          error={error.email}
         />
-        <input
-          className="text-input"
+        <InputTextField
           placeholder="Password"
           type="password"
           name="password"
           value={inputValues.password}
           onChange={handleInputChange}
+          error={error.password}
         />
-        <input
-          className="text-input"
+        <InputTextField
           placeholder="Confirm password"
           type="password"
           name="passwordCheck"
           value={inputValues.passwordCheck}
           onChange={handleInputChange}
+          error={error.passwordCheck}
         />
         <button type="submit" disabled={registerButtonDisable()}>Register</button>
-        {error && (
-          <div className="error">
-            {error}
-          </div>
-        )}
       </form>
       {success && (
         <div className={styles.success}>
@@ -74,4 +70,4 @@ function Register({
   );
 }
 
-export const RegisterComponent = observer(Register);
+export const RegisterForm = observer(RegisterComponent);

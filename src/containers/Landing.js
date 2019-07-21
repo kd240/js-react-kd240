@@ -1,24 +1,26 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { useAsync } from 'react-use';
-import { HeaderContainer } from './HeaderContainer';
-import { Search } from '../components/SearchComponent';
-import { FlightCard } from '../components/FlightCard';
+import { action } from 'mobx';
 
+import { Header } from './Header';
+import { Search } from '../components/Search';
+import { FlightCard } from '../components/FlightCard';
 import '../styles/landing.css';
 import { getFlighs } from '../services/flights';
-import { appState } from '../state/appState';
+import { AppContext } from '../state/appContext';
 
 function LandingContainer() {
-  const { loading } = useAsync(getFlighs.bind(null, appState));
+  const { AppState } = React.useContext(AppContext);
+  const { loading } = useAsync(getFlighs.bind(null, AppState));
 
-  function handleInputChange(e) {
-    appState.flightFilter[e.target.name] = e.target.value;
-  }
+  const handleInputChange = action(function(e) {
+    AppState.flightFilter[e.target.name] = e.target.value;
+  });
 
-  function handleSearch() {
-    appState.applyFilter();
-  }
+  const handleSearch = action(function() {
+    AppState.filteredFlights = AppState.applyFilter;
+  });
 
   function formatTime(time) {
     return (new Date(time)).toLocaleTimeString();
@@ -26,7 +28,7 @@ function LandingContainer() {
 
   return (
     <div>
-      <HeaderContainer />
+      <Header />
       <div className="landing-wrapper">
         <Search
           handleInputChange={handleInputChange}
@@ -36,7 +38,7 @@ function LandingContainer() {
           {loading && (
             <p>Loading</p>
           )}
-          {appState.filteredFlights
+          {AppState.filteredFlights
             .map((flight) => (
               <FlightCard
                 key={flight.id}
