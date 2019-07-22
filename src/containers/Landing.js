@@ -7,7 +7,7 @@ import { Header } from './Header';
 import { Search } from '../components/Search';
 import { FlightCard } from '../components/FlightCard';
 import { getFlighs } from '../services/flights';
-import { AppContext } from '../state/appContext';
+import { AppContext } from '../state/AppContext';
 
 import styles from './Landing.module.scss';
 

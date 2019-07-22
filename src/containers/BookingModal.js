@@ -4,7 +4,7 @@ import { useToggle } from 'react-use';
 import { action } from 'mobx';
 
 import { Booking } from '../components/Booking';
-import { AppContext } from '../state/appContext';
+import { AppContext } from '../state/AppContext';
 import { createBooking } from '../services/booking';
 
 function BookingModalContainer({ history, match: { params: { id }}}) {

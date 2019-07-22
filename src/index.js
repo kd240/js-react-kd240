@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import { action } from 'mobx';
 
-import { AppContext } from './state/appContext';
+import { AppContext } from './state/AppContext';
 import { PrivateRoute } from './containers/PrivateRoute';
 import { Landing } from './containers/Landing';
 import { Login } from './containers/Login';
@@ -17,13 +18,16 @@ export function AppComponent() {
   
   const { AppState } = React.useContext(AppContext);
 
-  if (localStorage.getItem('remember')) {
-    AppState.sessionToken = localStorage.getItem('sessionToken');
-    AppState.firstName = localStorage.getItem('sessionName');
-  } else if (sessionStorage.getItem('loged')) {
-    AppState.sessionToken = sessionStorage.getItem('sessionToken');
-    AppState.firstName = sessionStorage.getItem('sessionName');
-  }
+  (action(function() {
+    if (localStorage.getItem('remember')) {
+      AppState.sessionToken = localStorage.getItem('sessionToken');
+      AppState.firstName = localStorage.getItem('sessionName');
+    } else if (sessionStorage.getItem('loged')) {
+      AppState.sessionToken = sessionStorage.getItem('sessionToken');
+      AppState.firstName = sessionStorage.getItem('sessionName');
+    }
+  }))();
+  
   const isLogged = AppState.sessionToken;
 
   return (

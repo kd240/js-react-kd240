@@ -5,7 +5,7 @@ import { action } from 'mobx';
 
 import { LoginForm } from '../components/LoginForm';
 import { getSessionToken } from '../services/session';
-import { AppContext } from '../state/appContext';
+import { AppContext } from '../state/AppContext';
 
 function LoginContainer(props) {
   const { AppState } = React.useContext(AppContext);

@@ -1,4 +1,4 @@
-import { observable, decorate, computed } from 'mobx';
+import { observable, decorate, computed, configure } from 'mobx';
 
 class appState {
   // Session
@@ -36,6 +36,8 @@ class appState {
 
 decorate(appState, {
   sessionToken: observable,
+  remember: observable,
+  firstName: observable,
   flights: observable,
   flight: observable,
   filteredFlights: observable,

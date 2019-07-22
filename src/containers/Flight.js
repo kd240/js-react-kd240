@@ -6,7 +6,7 @@ import { action } from 'mobx';
 import { Header } from './Header';
 import { getFlightById } from '../services/flights';
 import { FligthDetails } from '../components/FlightDetails';
-import { AppContext } from '../state/appContext';
+import { AppContext } from '../state/AppContext';
 
 function FligthContainer({ history, match: { params: { id } } }) {
   const { AppState } = React.useContext(AppContext);

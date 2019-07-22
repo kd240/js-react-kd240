@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { action } from 'mobx';
 
-import { AppContext } from '../state/appContext';
+import { AppContext } from '../state/AppContext';
 
 import styles from './Header.module.scss';
 
