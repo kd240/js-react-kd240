@@ -3,12 +3,14 @@ import { observer } from 'mobx-react';
 import { SelectElement } from './SelectElement';
 import { AppContext } from '../state/appContext';
 
+import styles from './Search.module.scss';
+
 function SearchComponent({ handleInputChange, handleSearch }) {
 
   const { AppState } = React.useContext(AppContext);
 
   return (
-    <div className="search-wrapper">
+    <div className={styles.search}>
       <h1>Find best flight for you and your friends!</h1>
       <input
         name="date"

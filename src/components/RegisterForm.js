@@ -1,9 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import styles from '../styles/statusMessages.module.css';
-import '../styles/register.css';
 import { InputTextField } from './InputTextField';
+
+import styles from './RegisterForm.module.scss';
+import message from '../styles/statusMessages.module.scss';
 
 function RegisterComponent({
   handleSubmit,
@@ -18,7 +19,7 @@ function RegisterComponent({
   }
 
   return (
-    <div className="register-wrapper">
+    <div className={styles.register}>
       <h1>Register</h1>
       <form className="form" onSubmit={handleSubmit}>
         <InputTextField
@@ -61,7 +62,7 @@ function RegisterComponent({
         <button type="submit" disabled={registerButtonDisable()}>Register</button>
       </form>
       {success && (
-        <div className={styles.success}>
+        <div className={message.success}>
           <p>User created successfully</p>
           <a href="/login">Login here</a>
         </div>

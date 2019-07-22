@@ -1,14 +1,16 @@
 import React, { Fragment } from 'react';
 import { observer } from 'mobx-react';
 
-function RatingComponent(rating) {
+import styles from './Rating.module.scss';
+
+function RatingComponent({ rating }) {
 
   return (
     <Fragment>
       {Array
         .from({ length: rating })
         .map((el, i) => (
-          <span className="rating" key={i}>&#9733;</span> // eslint-disable-line
+          <span className={styles.rating} key={i}>&#9733;</span> // eslint-disable-line
         ))}
     </Fragment>
   );

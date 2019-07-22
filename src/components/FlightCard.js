@@ -3,8 +3,9 @@ import { useToggle } from 'react-use';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
-import '../styles/flightCard.css';
 import { Rating } from './Rating';
+
+import styles from './FlightCard.module.scss';
 
 export function FlightCardComponent({
   id, freeSeats, price, company, time, rating,
@@ -12,11 +13,11 @@ export function FlightCardComponent({
   const [optionState, optionToggle] = useToggle(false);
 
   return (
-    <div className="result-card">
-      <div className="options">
-        <span className="option-button" onClick={optionToggle} role="presentation">&#10247;</span>
+    <div className={styles.result}>
+      <div className={styles.options}>
+        <span onClick={optionToggle} role="presentation">&#10247;</span>
         {optionState && (
-          <div className="option-menu">
+          <div>
             <ul>
               <li><Link to={`/flight/${id}`}>Book</Link></li>
               <li>Add to wishlist</li>
@@ -25,8 +26,8 @@ export function FlightCardComponent({
         )}
       </div>
       <Link to={`/flight/${id}`}>
-        <div className="image" />
-        <div className="info">
+        <div className={styles.image} />
+        <div className={styles.info}>
           <p className="departs">Departs at <span className="departs-time">{time}</span></p>
           <p className="company">{company}</p>
           <span>

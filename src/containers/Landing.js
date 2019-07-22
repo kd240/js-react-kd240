@@ -6,9 +6,10 @@ import { action } from 'mobx';
 import { Header } from './Header';
 import { Search } from '../components/Search';
 import { FlightCard } from '../components/FlightCard';
-import '../styles/landing.css';
 import { getFlighs } from '../services/flights';
 import { AppContext } from '../state/appContext';
+
+import styles from './Landing.module.scss';
 
 function LandingContainer() {
   const { AppState } = React.useContext(AppContext);
@@ -29,12 +30,12 @@ function LandingContainer() {
   return (
     <div>
       <Header />
-      <div className="landing-wrapper">
+      <div className={styles.landing}>
         <Search
           handleInputChange={handleInputChange}
           handleSearch={handleSearch}
         />
-        <div className="results-wrapper">
+        <div className={styles.results}>
           {loading && (
             <p>Loading</p>
           )}

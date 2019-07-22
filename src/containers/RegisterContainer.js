@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSetState } from 'react-use';
 import { observer } from 'mobx-react';
 
-import '../styles/register.css';
 import { RegisterForm } from '../components/RegisterForm';
 import { createUser } from '../services/user';
 

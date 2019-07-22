@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { InputTextField } from './InputTextField';
 
+import styles from './LoginForm.module.scss';
+
 function LoginComponent({
   handleSubmit,
   handleTextInputChange,
@@ -16,7 +18,7 @@ function LoginComponent({
   }
 
   return (
-    <div className="login-wrapper">
+    <div className={styles.login}>
       <h1>Login</h1>
       <form className="form" onSubmit={handleSubmit}>
         <InputTextField
@@ -46,7 +48,7 @@ function LoginComponent({
         </div>
         <button type="submit" disabled={loginButtonDisable()}>Login</button>
         {error && (
-          <div className="error">
+          <div className={styles.error}>
             {error}
           </div>
         )}

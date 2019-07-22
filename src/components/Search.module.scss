@@ -1,0 +1,33 @@
+.search {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 2px;
+  padding: 0 2em 2em;
+  background-color: #EDF1F3;
+
+  & > h1 {
+    text-align: center;
+    grid-column: 1 / 5;
+    line-height: 6rem;
+    color: #0568FA;
+  }
+
+  & > input,
+  & > select {
+    font-size: 1rem;
+    line-height: 2rem;
+    padding: 0 1em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  & > button {
+    background-color: #0568FA;
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    line-height: 2em;
+    cursor: pointer;
+  }
+}

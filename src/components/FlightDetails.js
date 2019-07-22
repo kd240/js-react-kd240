@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWifi, faBabyCarriage, faTv, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { observer } from 'mobx-react';
 
+import styles from './FlightDetails.module.scss';
+
 function FligthDetailsComponent({ flight, openBookingModal }) {
 
   function formatTime(date) {
@@ -10,36 +12,36 @@ function FligthDetailsComponent({ flight, openBookingModal }) {
   }
 
   return (
-    <div className="details-container">
+    <div className={styles.details}>
       <h1>{flight.name}</h1>
-      <div className="info-container">
-        <div className="info">
+      <div className={styles.info}>
+        <div>
           <p>Company:</p>
           <p>{flight.company_name}</p>
         </div>
-        <div className="info">
+        <div>
           <p>Available seats:</p>
           <p>{flight.no_of_seats - flight.no_of_booked_seats}</p>
         </div>
-        <div className="info">
+        <div>
           <p>Departs at:</p>
           <p>{formatTime(flight.flys_at)}</p>
         </div>
-        <div className="info">
+        <div>
           <p>Lands at:</p>
           <p>{formatTime(flight.lands_at)}</p>
         </div>
-        <div className="info">
+        <div>
           <p>Base price:</p>
           <p>{flight.base_price}</p>
         </div>
-        <div className="info">
+        <div>
           <p>Current price:</p>
           <p>{flight.current_price}</p>
         </div>
       </div>
-      <div className="flight-img" />
-      <div className="flight-features">
+      <div className={styles.flightImg} />
+      <div className={styles.flightFeatures}>
         <div className="feature">
           <FontAwesomeIcon icon={faWifi} color={Math.random() >= 0.5 ? 'blue' : ''} />
           <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Wireless internet</span>

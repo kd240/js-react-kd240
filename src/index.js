@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
+
+import { AppContext } from './state/appContext';
+import { PrivateRoute } from './containers/PrivateRoute';
 import { Landing } from './containers/Landing';
 import { Login } from './containers/Login';
 import { Flight } from './containers/Flight';
-import { PrivateRoute } from './containers/PrivateRoute';
-
-import './styles/index.css';
 import { Register } from './containers/RegisterContainer';
 import { BookingModal } from './containers/BookingModal';
-import { AppContext } from './state/appContext';
+
+import './index.scss';
 
 export function AppComponent() {
   

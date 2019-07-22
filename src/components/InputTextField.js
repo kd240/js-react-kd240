@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { observer } from 'mobx-react';
 
-import styles from '../styles/statusMessages.module.css';
+import styles from './InputTextField.module.scss';
 
 function InputTextFieldComponent({
   placeholder,
@@ -15,7 +15,7 @@ function InputTextFieldComponent({
   return (
     <Fragment>
       <input
-        className="text-input"
+        className={styles.input}
         placeholder={placeholder || ''}
         type={type || 'text'}
         name={name}

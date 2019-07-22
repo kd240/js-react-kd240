@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import { useSetState } from 'react-use';
 import { action } from 'mobx';
 
-import '../styles/login.css';
 import { LoginForm } from '../components/LoginForm';
 import { getSessionToken } from '../services/session';
 import { AppContext } from '../state/appContext';

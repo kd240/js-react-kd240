@@ -4,6 +4,8 @@ import { action } from 'mobx';
 
 import { AppContext } from '../state/appContext';
 
+import styles from './Header.module.scss';
+
 function HeaderContainer() {
 
   const { AppState } = React.useContext(AppContext);
@@ -20,7 +22,7 @@ function HeaderContainer() {
   });
 
   return (
-    <div className="header-wrapper">
+    <div className={styles.header}>
       <p>Hi, {AppState.firstName}!</p>
       <button onClick={handleLogout}>Logout</button>
     </div>

@@ -1,0 +1,74 @@
+.login {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  max-width: 400px;
+  text-align: center;
+
+  h1 {
+    color: #0568FA;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    & > button {
+      display: block;
+      width: 80%;
+      margin: 1em auto;
+      background-color: #0568FA;
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      line-height: 2em;
+      padding: 0 2em;
+      border-radius: 5px;
+      cursor: pointer;  
+
+      &:disabled {
+        background-color: #65A7FA;
+      }
+    }
+  }
+
+  .remember {
+    & > label {
+      font-size: 1.2em;
+
+      & > span {
+        vertical-align: middle;
+      }
+
+      & > input {
+        margin-right: 1em;
+        height: 1.2rem;
+        width: 1.2rem;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .register {
+    & > * {
+      line-height: 2.5em;
+    }
+
+    & > a {
+      color: #0568FA;
+      text-decoration: none; 
+    }
+  }
+
+  .error {
+    background-color: #FF9494;
+    line-height: 3rem;
+    margin: 1rem 1.5rem;
+    border: solid #DF6363;
+    border-radius: 5px;
+  }
+}

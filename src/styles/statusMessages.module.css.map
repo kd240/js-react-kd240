@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,QAAQ,CAAC;EACP,gBAAgB,EAAE,OAAO;EACzB,OAAO,EAAE,IAAI;EACb,WAAW,EAAE,GAAG;EAChB,KAAK,EAAE,IAAI;EACX,KAAK,EAAE,KAAK;EACZ,SAAS,EAAE,MAAM;EACjB,UAAU,EAAE,MAAM;EAClB,UAAU,EAAE,MAAM;EAClB,aAAa,EAAE,GAAG;CACnB",
-    "sources": [
-        "statusMessages.module.scss"
-    ],
-    "names": [],
-    "file": "statusMessages.module.css"
-}

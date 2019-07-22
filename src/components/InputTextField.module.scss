@@ -1,0 +1,21 @@
+.input {
+  width: 100%;
+  border: none;
+  border-bottom: #65A7FA solid 1px;
+  outline: none;
+  font-size: 1.2rem;
+  padding: 1rem;
+  margin: 1em 0;
+
+  &:focus {
+    border-bottom-color: #0568FA
+  }
+}
+
+.error {
+  font-size: 0.9rem;
+  background-color: #FF9494;
+  margin: 0 1.5rem;
+  border: solid #DF6363;
+  border-radius: 5px;
+}

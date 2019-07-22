@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import { action } from 'mobx';
 
 import { Header } from './Header';
-import '../styles/flightDetails.css';
 import { getFlightById } from '../services/flights';
 import { FligthDetails } from '../components/FlightDetails';
 import { AppContext } from '../state/appContext';
