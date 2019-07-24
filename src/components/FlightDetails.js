@@ -21,7 +21,7 @@ function FligthDetailsComponent({ flight, openBookingModal }) {
         </div>
         <div>
           <p>Available seats:</p>
-          <p>{flight.no_of_seats - flight.no_of_booked_seats}</p>
+          <p>{flight.freeSeats}</p>
         </div>
         <div>
           <p>Departs at:</p>

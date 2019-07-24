@@ -2,17 +2,16 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { action } from 'mobx';
 
-import { AppContext } from '../state/AppContext';
+import { appContext } from '../state/appContext';
 
 import styles from './Header.module.scss';
 
-function HeaderContainer() {
-
-  const { AppState } = React.useContext(AppContext);
+function HeaderContainer({ history }) {
+  const { appState } = React.useContext(appContext);
 
   const handleLogout = action(function() {
-    AppState.firstName = '';
-    AppState.sessionToken = '';
+    appState.firstName = '';
+    appState.sessionToken = '';
     localStorage.setItem('sessionToken', '');
     localStorage.setItem('sessionName', '');
     localStorage.setItem('remember', '');
@@ -21,9 +20,13 @@ function HeaderContainer() {
     sessionStorage.setItem('loged', '');
   });
 
+  function goToLanding() {
+    history.push('/');
+  }
+
   return (
-    <div className={styles.header}>
-      <p>Hi, {AppState.firstName}!</p>
+    <div className={styles.header} role="presentation" onClick={goToLanding}>
+      <p>Hi, {appState.firstName}!</p>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

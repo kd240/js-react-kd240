@@ -1,9 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-
-import message from '../styles/statusMessages.module.scss';
 import { SelectElement } from './SelectElement';
 
+import messages from '../styles/statusMessages.module.scss';
 import styles from './Booking.module.scss';
 
 function BookingComponent({
@@ -31,7 +30,7 @@ function BookingComponent({
         <br />
         <button onClick={handleBooking}>Confirm booking</button>
         {success && (
-          <div className={message.success}>
+          <div className={messages.success}>
             <p>Booking created successfully</p>
           </div>
         )}

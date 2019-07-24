@@ -4,17 +4,18 @@ import { useToggle } from 'react-use';
 import { action } from 'mobx';
 
 import { Booking } from '../components/Booking';
-import { AppContext } from '../state/AppContext';
+import { appContext } from '../state/appContext';
 import { createBooking } from '../services/booking';
+import { getFlightById } from '../services/flights';
 
 function BookingModalContainer({ history, match: { params: { id }}}) {
-  const { AppState } = React.useContext(AppContext);
+  const { appState } = React.useContext(appContext);
   const [seats, setSeats] = React.useState(0);
   const [created, toggleCreated] = useToggle(false);
 
   function handleClosing() {
-    history.push(`/`);
     toggleCreated(false);
+    history.push(`/flight/${id}`);
   }
 
   const handleBooking = action(function() {
@@ -23,7 +24,10 @@ function BookingModalContainer({ history, match: { params: { id }}}) {
         no_of_seats: seats, // eslint-disable-line
         flight_id: id, // eslint-disable-line
       },
-    }, AppState).then(toggleCreated);
+    }, appState)
+      .then(toggleCreated)
+      .then(getFlightById(id, appState))
+      .catch((err) => console.log(err)); // eslint-disable-line
   });
 
   function handleSelectChanged({ target }) {
@@ -31,7 +35,7 @@ function BookingModalContainer({ history, match: { params: { id }}}) {
   }
   return (
     <Booking
-      freeSeats={AppState.flight.no_of_seats - AppState.flight.no_of_booked_seats}
+      freeSeats={appState.flight.freeSeats}
       seatsSelected={seats}
       handleClosing={handleClosing}
       handleBooking={handleBooking}

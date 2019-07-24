@@ -17,7 +17,7 @@ function RegisterContainer() {
       },
     }).then(() => {
       setSuccess(true);
-    });
+    }).catch((err) => console.log(err)); // eslint-disable-line
   }
 
   return (

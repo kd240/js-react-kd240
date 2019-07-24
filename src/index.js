@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { action } from 'mobx';
 
-import { AppContext } from './state/AppContext';
+import { appContext } from './state/appContext';
 import { PrivateRoute } from './containers/PrivateRoute';
 import { Landing } from './containers/Landing';
 import { Login } from './containers/Login';
@@ -16,19 +16,19 @@ import './index.scss';
 
 export function AppComponent() {
   
-  const { AppState } = React.useContext(AppContext);
+  const { appState } = React.useContext(appContext);
 
   (action(function() {
     if (localStorage.getItem('remember')) {
-      AppState.sessionToken = localStorage.getItem('sessionToken');
-      AppState.firstName = localStorage.getItem('sessionName');
+      appState.sessionToken = localStorage.getItem('sessionToken');
+      appState.firstName = localStorage.getItem('sessionName');
     } else if (sessionStorage.getItem('loged')) {
-      AppState.sessionToken = sessionStorage.getItem('sessionToken');
-      AppState.firstName = sessionStorage.getItem('sessionName');
+      appState.sessionToken = sessionStorage.getItem('sessionToken');
+      appState.firstName = sessionStorage.getItem('sessionName');
     }
   }))();
   
-  const isLogged = AppState.sessionToken;
+  const isLogged = appState.sessionToken;
 
   return (
     <Router>
@@ -37,6 +37,8 @@ export function AppComponent() {
       <Route path="/register" component={Register} />
       <PrivateRoute isLogged={isLogged} path="/flight/:id" component={Flight} />
       <PrivateRoute isLogged={isLogged} path="/flight/:id/book" component={BookingModal} />
+      {/* <PrivateRoute isLogged={isLogged} path="/user" component={UsersInfo} />
+      <PrivateRoute isLogged={isLogged} path="/user/edit" component={Landing} /> */}
     </Router>
   );
 }

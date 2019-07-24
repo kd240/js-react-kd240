@@ -6,27 +6,27 @@ import { action } from 'mobx';
 import { Header } from './Header';
 import { getFlightById } from '../services/flights';
 import { FligthDetails } from '../components/FlightDetails';
-import { AppContext } from '../state/AppContext';
+import { appContext } from '../state/appContext';
 
 function FligthContainer({ history, match: { params: { id } } }) {
-  const { AppState } = React.useContext(AppContext);
+  const { appState } = React.useContext(appContext);
   
-  const { loading, value } = useAsync(action(() => getFlightById(id, AppState)));
+  const { loading, value } = useAsync(action(() => getFlightById(id, appState)));
 
   function openBookingModal() {
     history.push(`/flight/${id}/book`);
   }
 
   return (
-    <div className="wrapper">
-      <Header />
+    <div>
+      <Header history={history} />
       {loading && (
         <p>Loading</p>
       )}
       {value && (
         <FligthDetails
           id={id}
-          flight={value}
+          flight={appState.flight}
           openBookingModal={openBookingModal}
         />
       )}

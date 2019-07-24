@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppState } from './AppState';
+import { appState } from './appState';
 
-export const AppContext = React.createContext({
-  AppState,
+export const appContext = React.createContext({
+  appState,
 });

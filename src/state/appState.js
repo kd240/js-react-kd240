@@ -1,6 +1,6 @@
 import { observable, decorate, computed } from 'mobx';
 
-class appState {
+class AppState {
   // Session
   remember = false;
   sessionToken = '';
@@ -34,7 +34,7 @@ class appState {
   }
 }
 
-decorate(appState, {
+decorate(AppState, {
   sessionToken: observable,
   remember: observable,
   firstName: observable,
@@ -45,4 +45,4 @@ decorate(appState, {
   applyFilter: computed,
 });
 
-export const AppState = new appState();
+export const appState = new AppState();

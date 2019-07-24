@@ -60,6 +60,9 @@
       ],
       "jsx-a11y/no-onchange": [
         0
+      ],
+      "react-hooks/exhaustive-deps": [
+        0
       ]
     }
   },

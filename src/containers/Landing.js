@@ -7,21 +7,21 @@ import { Header } from './Header';
 import { Search } from '../components/Search';
 import { FlightCard } from '../components/FlightCard';
 import { getFlighs } from '../services/flights';
-import { AppContext } from '../state/AppContext';
+import { appContext } from '../state/appContext';
 
 import styles from './Landing.module.scss';
 
-function LandingContainer() {
-  const { AppState } = React.useContext(AppContext);
-  const { loading } = useAsync(getFlighs.bind(null, AppState));
+function LandingContainer({ history }) {
+  const { appState } = React.useContext(appContext);
+  const { loading } = useAsync(getFlighs.bind(null, appState));
 
   const handleInputChange = action(function(e) {
-    AppState.flightFilter[e.target.name] = e.target.value;
+    appState.flightFilter[e.target.name] = e.target.value;
   });
 
   const handleSearch = action(function(data) {
-    AppState.flightFilter = data;
-    AppState.filteredFlights = AppState.applyFilter;
+    appState.flightFilter = data;
+    appState.filteredFlights = appState.applyFilter;
   });
 
   function formatTime(time) {
@@ -30,10 +30,10 @@ function LandingContainer() {
 
   return (
     <div>
-      <Header />
+      <Header history={history} />
       <div className={styles.landing}>
         <Search
-          inputValues={AppState.flightFilter}
+          inputValues={appState.flightFilter}
           handleInputChange={handleInputChange}
           handleSearch={handleSearch}
         />
@@ -41,12 +41,11 @@ function LandingContainer() {
           {loading && (
             <p>Loading</p>
           )}
-          {AppState.filteredFlights
+          {appState.filteredFlights
             .map((flight) => (
               <FlightCard
                 key={flight.id}
                 id={flight.id}
-                name={flight.name}
                 freeSeats={flight.no_of_seats - flight.no_of_booked_seats}
                 price={flight.current_price}
                 company={flight.company_name}
