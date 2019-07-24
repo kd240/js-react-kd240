@@ -1,35 +1,28 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 
 import styles from './InputTextField.module.scss';
 
 function InputTextFieldComponent({
-  placeholder,
-  type,
-  name,
-  value,
-  onChange,
+  register,
   error,
+  ...rest
 }) {
 
   return (
-    <Fragment>
+    <div className={styles.userInput}>
       <input
-        className={styles.input}
-        placeholder={placeholder || ''}
-        type={type || 'text'}
-        name={name}
-        value={value}
-        onChange={onChange}
+        autoComplete="off"
+        valid={error ? 'no' : 'yes'}
+        ref={register}
+        {...rest}
       />
       {error && (
-        <div className={styles.error}>
-          <p>
-            {error}
-          </p>
-        </div>
+        <p className={styles.error}>
+          {error.message}
+        </p>
       )}
-    </Fragment>
+    </div>
   );
 }
 

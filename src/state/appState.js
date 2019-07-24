@@ -1,4 +1,4 @@
-import { observable, decorate, computed, configure } from 'mobx';
+import { observable, decorate, computed } from 'mobx';
 
 class appState {
   // Session

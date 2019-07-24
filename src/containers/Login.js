@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { observer } from 'mobx-react';
-import { useSetState } from 'react-use';
+import React from 'react';
 import { action } from 'mobx';
+import { observer } from 'mobx-react';
 
 import { LoginForm } from '../components/LoginForm';
 import { getSessionToken } from '../services/session';
@@ -9,35 +8,16 @@ import { AppContext } from '../state/AppContext';
 
 function LoginContainer(props) {
   const { AppState } = React.useContext(AppContext);
-  const [input, setInput] = useSetState({
-    email: '',
-    password: '',
-    remember: false,
-  });
-  const [error, setError] = useState('');
 
-  function handleTextInputChange(e) {
-    setInput({ [e.target.name]: e.target.value });
-  }
-
-  function handleCheckboxInputChange() {
-    setInput({ remember: !input.remember });
-  }
-
-  const handleSubmit = action(function(e) {
-    e.preventDefault();
-    getSessionToken(input.email, input.password, input.remember, AppState)
+  const onSubmit = action(function(data) {
+    getSessionToken(data.email, data.password, data.remember, AppState)
       .then(props.history.push.bind(null, '/'))
-      .catch(() => setError('Invalid credentials'));
+      .catch((err) => console.log(err));
   });
 
   return (
     <LoginForm
-      handleSubmit={handleSubmit}
-      handleTextInputChange={handleTextInputChange}
-      handleCheckboxInputChange={handleCheckboxInputChange}
-      inputValues={input}
-      error={error}
+      onSubmit={onSubmit}
     />
   );
 }

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import styles from './FlightDetails.module.scss';
 
 function FligthDetailsComponent({ flight, openBookingModal }) {
-
+  
   function formatTime(date) {
     return (new Date(date)).toLocaleDateString();
   }

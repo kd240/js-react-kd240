@@ -35,40 +35,31 @@
       }
     }
   }
-
-  .remember {
-    & > label {
-      font-size: 1.2em;
-
-      & > span {
-        vertical-align: middle;
-      }
-
-      & > input {
-        margin-right: 1em;
-        height: 1.2rem;
-        width: 1.2rem;
-        vertical-align: middle;
-      }
-    }
+}
+.remember {
+  & > input {
+    margin: 1.2rem 1em;
+    height: 1.2rem;
+    width: 1.2rem;
+    vertical-align: middle;
   }
 
-  .register {
-    & > * {
-      line-height: 2.5em;
-    }
-
-    & > a {
-      color: #0568FA;
-      text-decoration: none; 
+  & > label {
+    font-size: 1.2em;
+  
+    & > span {
+      vertical-align: middle;
     }
   }
+}
 
-  .error {
-    background-color: #FF9494;
-    line-height: 3rem;
-    margin: 1rem 1.5rem;
-    border: solid #DF6363;
-    border-radius: 5px;
+.register {
+  & > * {
+    line-height: 2.5em;
+  }
+
+  & > a {
+    color: #0568FA;
+    text-decoration: none; 
   }
 }

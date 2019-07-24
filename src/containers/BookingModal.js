@@ -13,7 +13,7 @@ function BookingModalContainer({ history, match: { params: { id }}}) {
   const [created, toggleCreated] = useToggle(false);
 
   function handleClosing() {
-    history.push(`/flight/${id}`);
+    history.push(`/`);
     toggleCreated(false);
   }
 

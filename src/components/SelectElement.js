@@ -4,24 +4,19 @@ import { observer } from 'mobx-react';
 function SelectElementComponent({
   start,
   size,
-  name,
-  value,
-  onChange,
+  register,
   append,
-  className,
+  ...rest
 }) {
-
   return (
-    <select className={className} name={name} value={value} onChange={onChange} >
-      {append && append
-        .map((el, i) => (
-          <option key={i}>{el}</option> // eslint-disable-line
-        ))}
+    <select ref={register} {...rest}>
+      {append && (
+        <option value="0" disabled selected>{append}</option> // eslint-disable-line
+      )}
       {Array
         .from({ length: size })
-        .map((el, i) => i + start)
-        .map((el) => (
-          <option key={el}>{el}</option>
+        .map((el, i) => (
+          <option key={i} value={i + start}>{i + start}</option>
         ))}
     </select>
   );

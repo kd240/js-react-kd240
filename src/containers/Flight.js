@@ -11,12 +11,7 @@ import { AppContext } from '../state/AppContext';
 function FligthContainer({ history, match: { params: { id } } }) {
   const { AppState } = React.useContext(AppContext);
   
-  const { loading, value } = useAsync(action(() => {
-    if (AppState.flight.id !== id) {
-      return getFlightById(id, AppState);
-    }
-    return Promise.resolve(AppState.flight);
-  }));
+  const { loading, value } = useAsync(action(() => getFlightById(id, AppState)));
 
   function openBookingModal() {
     history.push(`/flight/${id}/book`);

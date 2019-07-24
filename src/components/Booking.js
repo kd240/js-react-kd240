@@ -26,7 +26,7 @@ function BookingComponent({
           name="bookingSeats"
           value={seatsSelected}
           onChange={handleSelectChanged}
-          append={['No. seats']}
+          append="No. seats"
         />
         <br />
         <button onClick={handleBooking}>Confirm booking</button>

@@ -8,7 +8,8 @@ export async function get(model) {
       'Content-Type': 'application/json',
     },
   })
-    .then((res) => (res.ok ? res.json() : new Error(res.status)));
+    .then((res) => res.json())
+    .then((res) => (res.errors ? Promise.reject(res.errors) : res));
 }
 
 export async function getAuthorized(model, AppState) {
@@ -20,7 +21,8 @@ export async function getAuthorized(model, AppState) {
       Authorization: AppState.sessionToken,
     },
   })
-    .then((res) => (res.ok ? res.json() : new Error(res.status)));
+    .then((res) => res.json())
+    .then((res) => (res.errors ? Promise.reject(res.errors) : res));
 }
 
 export async function post(model, body) {
@@ -32,7 +34,8 @@ export async function post(model, body) {
     },
     body: JSON.stringify(body),
   })
-    .then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
+    .then((res) => res.json())
+    .then((res) => (res.errors ? Promise.reject(res.errors) : res));
 }
 
 export async function postAuthorized(model, body, AppState) {
@@ -45,5 +48,6 @@ export async function postAuthorized(model, body, AppState) {
     },
     body: JSON.stringify(body),
   })
-    .then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
+    .then((res) => res.json())
+    .then((res) => (res.errors ? Promise.reject(res.errors) : res));
 }

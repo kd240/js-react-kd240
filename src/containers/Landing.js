@@ -19,7 +19,8 @@ function LandingContainer() {
     AppState.flightFilter[e.target.name] = e.target.value;
   });
 
-  const handleSearch = action(function() {
+  const handleSearch = action(function(data) {
+    AppState.flightFilter = data;
     AppState.filteredFlights = AppState.applyFilter;
   });
 
@@ -32,6 +33,7 @@ function LandingContainer() {
       <Header />
       <div className={styles.landing}>
         <Search
+          inputValues={AppState.flightFilter}
           handleInputChange={handleInputChange}
           handleSearch={handleSearch}
         />

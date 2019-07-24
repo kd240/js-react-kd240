@@ -1,40 +1,42 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import useForm from 'react-hook-form';
+
 import { SelectElement } from './SelectElement';
-import { AppContext } from '../state/AppContext';
 
 import styles from './Search.module.scss';
 
-function SearchComponent({ handleInputChange, handleSearch }) {
+function SearchComponent({ handleSearch }) {
+  const {
+    register,
+    handleSubmit,
+  } = useForm({
 
-  const { AppState } = React.useContext(AppContext);
+  });
 
   return (
-    <div className={styles.search}>
+    <form className={styles.search} onSubmit={handleSubmit(handleSearch)}>
       <h1>Find best flight for you and your friends!</h1>
       <input
         name="date"
-        value={AppState.flightFilter.date}
         type="date"
-        onChange={handleInputChange}
+        ref={register}
       />
       <input
         name="city"
-        value={AppState.flightFilter.city}
         placeholder="City"
-        onChange={handleInputChange}
         className="city-input"
+        ref={register}
       />
       <SelectElement
         start={1}
         size={10}
         name="freeSeats"
-        value={AppState.flightFilter.freeSeats}
-        onChange={handleInputChange}
-        append={['No. persons']}
+        append="No. persons"
+        register={register}
       />
-      <button className="search-btn" onClick={handleSearch}>Search</button>
-    </div>
+      <button className="search-btn" type="submit">Search</button>
+    </form>
   );
 }
 

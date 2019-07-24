@@ -1,59 +1,57 @@
 import React from 'react';
+import useForm from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { InputTextField } from './InputTextField';
 
 import styles from './LoginForm.module.scss';
 
-function LoginComponent({
-  handleSubmit,
-  handleTextInputChange,
-  handleCheckboxInputChange,
-  inputValues,
-  error,
-}) {
-
-  function loginButtonDisable() {
-    return !(Boolean(inputValues.email) && Boolean(inputValues.password));
-  }
+function LoginComponent({ onSubmit }) {
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState,
+  } = useForm({
+    mode: 'onChange',
+  });
 
   return (
     <div className={styles.login}>
       <h1>Login</h1>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <InputTextField
           placeholder="Username"
           name="email"
-          value={inputValues.email}
-          onChange={handleTextInputChange}
+          type="email"
+          register={register({
+            pattern: {
+              value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'Please enter valid username',
+            },
+            required: 'Please provide your username',
+          })}
+          error={errors.email}
         />
         <InputTextField
           placeholder="Password"
           type="password"
           name="password"
-          value={inputValues.password}
-          onChange={handleTextInputChange}
+          register={register({ required: 'Please provide your password' })}
+          error={errors.password}
         />
-        <div className="remember">
-          <label>
-            <input
-              className="checkbox"
-              type="checkbox"
-              name="remember"
-              value={inputValues.remember}
-              onChange={handleCheckboxInputChange}
-            />
-            <span>Remember me</span>
-          </label>
+        <div className={styles.remember}>
+          <input
+            className="checkbox"
+            type="checkbox"
+            name="remember"
+            ref={register}
+          />
+          <label htmlFor="remember"><span>Remember me</span></label>
         </div>
-        <button type="submit" disabled={loginButtonDisable()}>Login</button>
-        {error && (
-          <div className={styles.error}>
-            {error}
-          </div>
-        )}
+        <button type="submit" disabled={!formState.isValid}>Login</button>
       </form>
-      <div className="register">
+      <div className={styles.register}>
         <h2>Don&apos;t have an account?</h2>
         <Link to='/register'><h2 className="link">Register here</h2></Link>
       </div>
