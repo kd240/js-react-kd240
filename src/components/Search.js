@@ -33,6 +33,7 @@ function SearchComponent({ handleSearch }) {
         size={10}
         name="freeSeats"
         append="No. persons"
+        defaultValue="0"
         register={register}
       />
       <button className="search-btn" type="submit">Search</button>

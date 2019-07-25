@@ -9,7 +9,7 @@ function SelectElementComponent({
   ...rest
 }) {
   return (
-    <select ref={register} defaultValue={0} {...rest}>
+    <select ref={register} {...rest}>
       {append && (
         <option value="0" disabled>{append}</option> // eslint-disable-line
       )}

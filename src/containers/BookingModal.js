@@ -25,7 +25,7 @@ function BookingModalContainer({ history, match: { params: { id }}}) {
         flight_id: id, // eslint-disable-line
       },
     }, appState)
-      .then(toggleCreated)
+      .then(toggleCreated(true))
       .then(getFlightById(id, appState))
       .catch((err) => console.log(err)); // eslint-disable-line
   });

@@ -21,7 +21,7 @@ function BookingComponent({
         <p>Number of passangers</p>
         <SelectElement
           start={1}
-          size={freeSeats > 10 ? 10 : freeSeats}
+          size={freeSeats >= 10 ? 10 : freeSeats}
           name="bookingSeats"
           value={seatsSelected}
           onChange={handleSelectChanged}

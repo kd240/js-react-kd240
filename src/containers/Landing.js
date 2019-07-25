@@ -15,10 +15,6 @@ function LandingContainer({ history }) {
   const { appState } = React.useContext(appContext);
   const { loading } = useAsync(getFlighs.bind(null, appState));
 
-  const handleInputChange = action(function(e) {
-    appState.flightFilter[e.target.name] = e.target.value;
-  });
-
   const handleSearch = action(function(data) {
     appState.flightFilter = data;
     appState.filteredFlights = appState.applyFilter;
@@ -34,7 +30,6 @@ function LandingContainer({ history }) {
       <div className={styles.landing}>
         <Search
           inputValues={appState.flightFilter}
-          handleInputChange={handleInputChange}
           handleSearch={handleSearch}
         />
         <div className={styles.results}>
