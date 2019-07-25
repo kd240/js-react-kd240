@@ -6,10 +6,12 @@ import { observer } from 'mobx-react';
 import styles from './FlightDetails.module.scss';
 
 function FligthDetailsComponent({ flight, openBookingModal }) {
-  
   function formatTime(date) {
     return (new Date(date)).toLocaleDateString();
   }
+
+  const flysAt = React.useMemo(() => formatTime(flight.flys_at), [flight.flys_at]);
+  const landsAt = React.useMemo(() => formatTime(flight.flys_at), [flight.lands_at]);
 
   return (
     <div className={styles.details}>
@@ -25,11 +27,11 @@ function FligthDetailsComponent({ flight, openBookingModal }) {
         </div>
         <div>
           <p>Departs at:</p>
-          <p>{formatTime(flight.flys_at)}</p>
+          <p>{flysAt}</p>
         </div>
         <div>
           <p>Lands at:</p>
-          <p>{formatTime(flight.lands_at)}</p>
+          <p>{landsAt}</p>
         </div>
         <div>
           <p>Base price:</p>
