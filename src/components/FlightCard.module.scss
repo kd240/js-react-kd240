@@ -1,0 +1,82 @@
+.result {
+  border-radius: 5px;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  background-color: #eeeeee;
+}
+
+.options {
+  text-align: end;
+  font-size: 1.1em;
+  line-height: 2em;
+  padding: 0 0.5rem;
+  position: relative;
+
+  & > span {
+    cursor: pointer;
+  }
+
+  & > div {
+    position: absolute;
+    text-align: center;
+    right: 2em;
+    top: 1.9em;
+    background: white;
+    box-shadow: #8c8c8c88 0 0 1px 1px;
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        cursor: pointer;
+        border-bottom: whitesmoke solid 1px;
+        padding: 0.25em;
+
+        &:hover {
+          background: whitesmoke;
+        }
+      }
+    }
+  }
+}
+
+.image {
+  width: 100%;
+  height: calc(calc(100vw - 12em) / 3);
+  max-height: 350px;
+  background-image: url('https://loremflickr.com/300/300/plane');
+  background-size: cover;
+  background-position: center center;
+}
+
+.info {
+  padding: 1em;
+  font-size: 1.1rem;
+
+  p{
+    &:nth-of-type(1) {
+      margin-bottom: .9rem;
+      font-weight: bold;
+      font-size: 1.3rem; 
+    }
+
+    &:nth-of-type(2) {
+      margin-bottom: .9rem;
+    }
+
+    &:nth-of-type(3) {
+      margin-top: 1.5rem;
+
+      > span {
+        color: #0568FA;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  > span {
+    color: gray;
+  }
+}
