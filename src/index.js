@@ -11,7 +11,7 @@ import { Login } from './containers/Login';
 import { Flight } from './containers/Flight';
 import { Register } from './containers/RegisterContainer';
 import { BookingModal } from './containers/BookingModal';
-import { UserInfo } from './containers/UserInfo';
+import { User } from './containers/User';
 import { UserModal } from './containers/UserModal';
 
 import './index.scss';
@@ -39,7 +39,7 @@ export function AppComponent() {
       <Route path="/register" component={Register} />
       <PrivateRoute isLogged={isLogged} path="/flight/:id" component={Flight} />
       <PrivateRoute isLogged={isLogged} path="/flight/:id/book" component={BookingModal} />
-      <PrivateRoute isLogged={isLogged} path="/user" component={UserInfo} />
+      <PrivateRoute isLogged={isLogged} path="/user" component={User} />
       <PrivateRoute isLogged={isLogged} path="/user/edit" component={UserModal} />
     </Router>
   );
