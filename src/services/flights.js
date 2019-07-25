@@ -1,6 +1,7 @@
 import { getAuthorized } from './API';
+import { models } from './model.enum';
 
-const model = 'flights';
+const model = models.FLIGHT;
 
 /**
  * Gets flights and stores them in appState.flights

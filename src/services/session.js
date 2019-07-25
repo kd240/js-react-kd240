@@ -1,6 +1,7 @@
 import { post } from './API';
+import { models } from './model.enum';
 
-const model = 'session';
+const model = models.SESSION;
 
 /**
  * If user is logged in appState.sessionToken is set
