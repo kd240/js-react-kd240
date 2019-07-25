@@ -59,7 +59,7 @@ function FligthDetailsComponent({ flight, openBookingModal }) {
           <span className={Math.random() >= 0.5 ? 'enabled' : ''}>Meal included</span>
         </div>
       </div>
-      <button onClick={openBookingModal}>Book now</button>
+      <button disabled={flight.freeSeats === 0} onClick={openBookingModal}>{flight.freeSeats === 0 ? 'No free seats to book' : 'Book now'}</button>
     </div>
   );
 }

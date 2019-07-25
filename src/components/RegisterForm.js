@@ -26,7 +26,7 @@ function RegisterComponent({
     if (success) {
       Object.keys(getValues()).forEach((key) => setValue(key, ''));
     }
-  }, [success]);
+  }, [success, getValues, setValue]);
 
   return (
     <div className={styles.register}>
