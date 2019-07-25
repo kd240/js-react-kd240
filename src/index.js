@@ -37,8 +37,8 @@ export function AppComponent() {
       <Route path="/register" component={Register} />
       <PrivateRoute isLogged={isLogged} path="/flight/:id" component={Flight} />
       <PrivateRoute isLogged={isLogged} path="/flight/:id/book" component={BookingModal} />
-      {/* <PrivateRoute isLogged={isLogged} path="/user" component={UsersInfo} />
-      <PrivateRoute isLogged={isLogged} path="/user/edit" component={Landing} /> */}
+      <PrivateRoute isLogged={isLogged} path="/user" component={UsersInfo} />
+      <PrivateRoute isLogged={isLogged} path="/user/edit" component={Landing} />
     </Router>
   );
 }
