@@ -5,7 +5,9 @@ class AppState {
   remember = false;
   sessionToken = '';
   firstName = '';
-  
+  userId='';
+  user = '';
+
   // Flights & filter
   flights = [];
   filteredFlights = [];
@@ -43,6 +45,8 @@ decorate(AppState, {
   filteredFlights: observable,
   flightFilter: observable,
   applyFilter: computed,
+  user: observable,
+  userId: observable,
 });
 
 export const appState = new AppState();

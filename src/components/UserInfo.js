@@ -1,13 +1,13 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-function UserInfoComponent() {
-
+function UserInfoComponent({ user }) {
+  console.log(user);
   return (
     <div>
       <div>Image</div>
-      <h1>Name</h1>
-      <p>Email</p>
+      <h1>{user.first_name} {user.last_name}</h1>
+      <p>{user.email}</p>
       <button>Edit</button>
     </div>
   );

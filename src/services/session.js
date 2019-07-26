@@ -8,21 +8,25 @@ const model = models.SESSION;
  * @param {string} email
  * @param {string} password
  */
-export function getSessionToken(email, password, remember, AppState) {
+export function getSessionToken(email, password, remember, appState) {
   return post(model, { session: { email, password }})
     .then((res) => res.session)
     .then((session) => {
-      AppState.email = '';
-      AppState.password = '';
-      AppState.firstName = session.user.first_name;
-      AppState.sessionToken = session.token;
+      appState.email = '';
+      appState.password = '';
+      appState.firstName = session.user.first_name;
+      appState.sessionToken = session.token;
+      appState.userId = session.user.id;
+      appState.user = session.user;
       if (remember) {
         localStorage.setItem('sessionToken', session.token);
         localStorage.setItem('sessionName', session.user.first_name);
+        localStorage.setItem('sessionId', session.user.id);
         localStorage.setItem('remember', true);
       } else {
         sessionStorage.setItem('sessionToken', session.token);
         sessionStorage.setItem('sessionName', session.user.first_name);
+        sessionStorage.setItem('sessionId', session.user.id);
         sessionStorage.setItem('loged', true);
       }
     });

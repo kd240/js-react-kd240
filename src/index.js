@@ -24,9 +24,11 @@ export function AppComponent() {
     if (localStorage.getItem('remember')) {
       appState.sessionToken = localStorage.getItem('sessionToken');
       appState.firstName = localStorage.getItem('sessionName');
+      appState.userId = localStorage.getItem('sessionId');
     } else if (sessionStorage.getItem('loged')) {
       appState.sessionToken = sessionStorage.getItem('sessionToken');
       appState.firstName = sessionStorage.getItem('sessionName');
+      appState.userId = sessionStorage.getItem('sessionId');
     }
   }))();
   
