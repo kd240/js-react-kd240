@@ -8,9 +8,13 @@ import { appContext } from '../state/appContext';
 import { getUserData } from '../services/user';
 import { MyBookings } from '../components/MyBookings';
 
-function UserContainer() {
+function UserContainer({ history }) {
   const { appState } = React.useContext(appContext);
   const { loading, value } = useAsync(() => getUserData(appState));
+
+  function handleEdit() {
+    history.push('/user/edit');
+  }
 
   return (
     <div>
@@ -19,7 +23,7 @@ function UserContainer() {
         {loading && <p>Loading...</p>}
         {value && (
           <React.Fragment>
-            <UserInfo user={appState.user} />
+            <UserInfo user={appState.user} handleEdit={handleEdit} />
             <MyBookings bookings={appState.user.bookings} />
           </React.Fragment>
         )}
