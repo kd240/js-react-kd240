@@ -21,7 +21,7 @@ function LandingContainer({ history }) {
   });
 
   function formatTime(time) {
-    return (new Date(time)).toLocaleTimeString();
+    return new Date(time).toLocaleTimeString();
   }
 
   return (
@@ -33,20 +33,18 @@ function LandingContainer({ history }) {
           handleSearch={handleSearch}
         />
         <div className={styles.results}>
-          {loading && (
-            <p>Loading</p>
-          )}
-          {appState.filteredFlights
-            .map((flight) => (
-              <FlightCard
-                key={flight.id}
-                id={flight.id}
-                freeSeats={flight.no_of_seats - flight.no_of_booked_seats}
-                price={flight.current_price}
-                company={flight.company_name}
-                time={formatTime(flight.flys_at)}
-                rating={Math.round(Math.random() * 5)}
-              />))}
+          {loading && <p>Loading</p>}
+          {appState.filteredFlights.map((flight) => (
+            <FlightCard
+              key={flight.id}
+              id={flight.id}
+              freeSeats={flight.no_of_seats - flight.no_of_booked_seats}
+              price={flight.current_price}
+              company={flight.company_name}
+              time={formatTime(flight.flys_at)}
+              rating={Math.round(Math.random() * 5)}
+            />
+          ))}
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ function MyBookingInfoComponent({ info }) {
     const date = new Date(info.flys_at);
     return `${date.toLocaleDateString()} | ${date.toLocaleTimeString()}`;
   }, [info]);
-
+  
   return (
     <div>
       <img alt="City" src="https://loremflickr.com/200/200/city" />

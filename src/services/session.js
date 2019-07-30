@@ -31,3 +31,12 @@ export function getSessionToken(email, password, remember, appState) {
       }
     });
 }
+
+/**
+ * If old password is incorrect error is thrown
+ * @param {string} email 
+ * @param {string} password 
+ */
+export function checkOldPassword(email, password) {
+  return post(model, { session: { email, password }});
+}

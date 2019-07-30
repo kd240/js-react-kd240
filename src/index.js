@@ -17,7 +17,6 @@ import { UserModal } from './containers/UserModal';
 import './index.scss';
 
 export function AppComponent() {
-  
   const { appState } = React.useContext(appContext);
 
   (action(function() {

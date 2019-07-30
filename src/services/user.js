@@ -1,4 +1,4 @@
-import { post, getAuthorized } from './API';
+import { post, getAuthorized, put } from './API';
 import { models } from './model.enum';
 
 const model = models.USER;
@@ -13,6 +13,15 @@ export function createUser(userData) {
 
 export function getUserData(appState) {
   return getAuthorized(`${model}/${appState.userId}`, appState)
+    .then((response) => response.user)
+    .then((user) => {
+      appState.user = user;
+      return user;
+    });
+}
+
+export function updateUserData(userData, appState) {
+  return put(`${model}/${appState.userId}`, { user: userData }, appState)
     .then((response) => response.user)
     .then((user) => {
       appState.user = user;

@@ -63,3 +63,17 @@ export async function postImage(appState, image) {
     .then((res) => res.json())
     .then((res) => (res.errors ? Promise.reject(res.errors) : res));
 }
+
+export async function put(model, body, appState) {
+  return fetch(`${url}${model}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: appState.sessionToken,
+    },
+    body: JSON.stringify(body),
+  })
+    .then((res) => res.json())
+    .then((res) => (res.errors ? Promise.reject(res.errors) : res));
+}

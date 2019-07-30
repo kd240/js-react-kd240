@@ -12,6 +12,7 @@ export async function getFlighs(appState) {
     .then((flights) => {
       appState.flights = flights;
       appState.filteredFlights = flights;
+      return flights;
     });
 }
 

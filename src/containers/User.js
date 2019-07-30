@@ -1,16 +1,26 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { useAsync } from 'react-use';
+import { useAsync, useLocalStorage } from 'react-use';
 import { Header } from './Header';
-import { UserInfo } from '../components/UserInfo';
 
 import { appContext } from '../state/appContext';
 import { getUserData } from '../services/user';
-import { MyBookings } from '../components/MyBookings';
+import { ShowPanel } from './ShowPanel';
+import { UserInfo } from '../components/UserInfo';
+import { MyBookingInfo } from '../components/MyBookingInfo';
+import { getFlighs } from '../services/flights';
+import { Wishlist } from '../components/Wishlist';
 
 function UserContainer({ history }) {
   const { appState } = React.useContext(appContext);
-  const { loading, value } = useAsync(() => getUserData(appState));
+  const [wishlist] = useLocalStorage('wishlist', []);
+
+  const { loading: loadingUserData, value: userFetched } = useAsync(() =>
+    getUserData(appState));
+
+  const { loading: loadingWishlist, value: flightsFromWishlist } = useAsync(() =>
+    getFlighs(appState).then((flights) =>
+      flights.filter((flight) => wishlist.includes(flight.id))));
 
   function handleEdit() {
     history.push('/user/edit');
@@ -18,13 +28,31 @@ function UserContainer({ history }) {
 
   return (
     <div>
-      <Header />
+      <Header history={history} />
       <div>
-        {loading && <p>Loading...</p>}
-        {value && (
+        {loadingUserData && <p>Loading...</p>}
+        {appState.user && (
           <React.Fragment>
             <UserInfo user={appState.user} handleEdit={handleEdit} />
-            <MyBookings bookings={appState.user.bookings} />
+            {Boolean(userFetched && appState.user.bookings.length) && (
+              <ShowPanel
+                title="My bookings"
+                data={appState.user.bookings}
+                component={MyBookingInfo}
+              />
+            )}
+            {wishlist.length && (
+              <React.Fragment>
+                {loadingWishlist && <p>Loading...</p>}
+                {flightsFromWishlist && (
+                  <ShowPanel
+                    title="Wishlist"
+                    data={flightsFromWishlist}
+                    component={Wishlist}
+                  />
+                )}
+              </React.Fragment>
+            )}
           </React.Fragment>
         )}
       </div>

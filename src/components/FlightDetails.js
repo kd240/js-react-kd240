@@ -11,7 +11,7 @@ function FligthDetailsComponent({ flight, openBookingModal }) {
   }
 
   const flysAt = React.useMemo(() => formatTime(flight.flys_at), [flight.flys_at]);
-  const landsAt = React.useMemo(() => formatTime(flight.flys_at), [flight.lands_at]);
+  const landsAt = React.useMemo(() => formatTime(flight.lands_at), [flight.lands_at]);
 
   return (
     <div className={styles.details}>
