@@ -3,13 +3,16 @@ import { observer } from 'mobx-react';
 import useForm from 'react-hook-form';
 
 import { InputTextField } from './InputTextField';
+import { PopupMessage, PopupMessageTypes } from './PopupMessage';
 
 import styles from './RegisterForm.module.scss';
-import message from '../styles/statusMessages.module.scss';
 
 function RegisterComponent({
   onSubmit,
   success,
+  error,
+  handleCloseError,
+  handleCloseSucces,
 }) {
   const {
     register,
@@ -21,7 +24,7 @@ function RegisterComponent({
   } = useForm({
     mode: 'onChange',
   });
-  
+
   React.useEffect(() => {
     if (success) {
       Object.keys(getValues()).forEach((key) => setValue(key, ''));
@@ -31,12 +34,19 @@ function RegisterComponent({
   return (
     <div className={styles.register}>
       <h1>Register</h1>
-      <form autoComplete="off" className="form" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        autoComplete="off"
+        className="form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <InputTextField
           placeholder="First name"
           name="firstName"
           error={errors.firstName}
-          register={register({ required: 'Please provide your first name' })}
+          register={register({
+            required: 'Please provide your first name',
+            validate: (value) => value.length >= 2 || 'Name too short',
+          })}
         />
         <InputTextField
           placeholder="Last name"
@@ -69,17 +79,28 @@ function RegisterComponent({
           name="passwordCheck"
           register={register({
             required: 'Please provide your password again',
-            validate: (value) => value === getValues().password || 'Passords do not match',
+            validate: (value) =>
+              value === getValues().password || 'Passords do not match',
           })}
           error={errors.passwordCheck}
         />
-        <button type="submit" disabled={!formState.isValid}>Register</button>
+        <button type="submit" disabled={!formState.isValid}>
+          Register
+        </button>
       </form>
       {success && (
-        <div className={message.success}>
-          <p>User created successfully</p>
-          <a href="/login">Go to login</a>
-        </div>
+        <PopupMessage
+          type={PopupMessageTypes.SUCCESS}
+          message="User created successfully"
+          handleClose={handleCloseSucces}
+        />
+      )}
+      {error && (
+        <PopupMessage
+          type={PopupMessageTypes.ERROR}
+          message={error}
+          handleClose={handleCloseError}
+        />
       )}
     </div>
   );

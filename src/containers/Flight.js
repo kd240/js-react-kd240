@@ -7,10 +7,16 @@ import { Header } from './Header';
 import { getFlightById } from '../services/flights';
 import { FligthDetails } from '../components/FlightDetails';
 import { appContext } from '../state/appContext';
+import { Loading } from '../components/Loading';
 
-function FligthContainer({ history, match: { params: { id } } }) {
+function FligthContainer({
+  history,
+  match: {
+    params: { id },
+  },
+}) {
   const { appState } = React.useContext(appContext);
-  
+
   const { loading, value } = useAsync(action(() => getFlightById(id, appState)));
 
   function openBookingModal() {
@@ -20,9 +26,7 @@ function FligthContainer({ history, match: { params: { id } } }) {
   return (
     <div>
       <Header history={history} />
-      {loading && (
-        <p>Loading</p>
-      )}
+      {loading && <Loading />}
       {value && (
         <FligthDetails
           id={id}

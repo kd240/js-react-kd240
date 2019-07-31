@@ -1,0 +1,61 @@
+.loading {
+  position: fixed;
+  background: white;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: solid 9px;
+  animation-timing-function: linear;
+  animation-name: spinMe;
+  animation-iteration-count: infinite;
+
+  &:nth-child(1) {
+    animation-duration: 2s;
+    width: 80px;
+    height: 80px;
+    border-color: transparent #0568FA #0568FA transparent;
+  }
+
+  &:nth-child(2) {
+    animation-duration: 1s;
+    width: 60px;
+    height: 60px;
+    animation-direction: reverse;
+    border-color:  #0568FA #0568FA transparent transparent;
+  }
+
+  &:nth-child(3) {
+    animation-duration: 2s;
+    width: 40px;
+    height: 40px;
+    border-color: transparent transparent #0568FA #0568FA;
+  }
+}
+
+.s2 {
+}
+
+
+.s3 {
+}
+
+@keyframes spinMe {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

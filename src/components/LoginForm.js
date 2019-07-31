@@ -5,8 +5,9 @@ import { observer } from 'mobx-react';
 import { InputTextField } from './InputTextField';
 
 import styles from './LoginForm.module.scss';
+import { PopupMessage, PopupMessageTypes } from './PopupMessage';
 
-function LoginComponent({ onSubmit }) {
+function LoginComponent({ onSubmit, error, handleClosing }) {
   const {
     register,
     handleSubmit,
@@ -55,6 +56,7 @@ function LoginComponent({ onSubmit }) {
         <h2>Don&apos;t have an account?</h2>
         <Link to='/register'><h2 className="link">Register here</h2></Link>
       </div>
+      {error && <PopupMessage type={PopupMessageTypes.ERROR} message={error} handleClose={handleClosing} />}
     </div>
   );
 }

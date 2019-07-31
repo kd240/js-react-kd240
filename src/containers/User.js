@@ -10,6 +10,7 @@ import { UserInfo } from '../components/UserInfo';
 import { MyBookingInfo } from '../components/MyBookingInfo';
 import { getFlighs } from '../services/flights';
 import { Wishlist } from '../components/Wishlist';
+import { Loading } from '../components/Loading';
 
 function UserContainer({ history }) {
   const { appState } = React.useContext(appContext);
@@ -30,7 +31,7 @@ function UserContainer({ history }) {
     <div>
       <Header history={history} />
       <div>
-        {loadingUserData && <p>Loading...</p>}
+        {loadingUserData && <Loading />}
         {appState.user && (
           <React.Fragment>
             <UserInfo user={appState.user} handleEdit={handleEdit} />

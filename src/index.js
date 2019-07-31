@@ -30,7 +30,7 @@ export function AppComponent() {
       appState.userId = sessionStorage.getItem('sessionId');
     }
   }))();
-  
+
   const isLogged = appState.sessionToken;
 
   return (

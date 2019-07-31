@@ -4,10 +4,11 @@ import useForm from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
 
 import { InputTextField } from '../components/InputTextField';
+import { PopupMessage } from '../components/PopupMessage';
 
 import styles from './EditForm.module.scss';
 
-function EditFormComponent({ onSubmit, userData }) {
+function EditFormComponent({ reference, onSubmit, userData, message }) {
   const {
     register, handleSubmit, errors, getValues, setValue,
   } = useForm();
@@ -29,7 +30,7 @@ function EditFormComponent({ onSubmit, userData }) {
 
   return (
     <div className={styles.editForm}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form ref={reference} onSubmit={handleSubmit(onSubmit)}>
         <h1>Edit profile</h1>
         <div className={styles.dropdown} {...getRootProps()}>
           <img alt="Profile" src={imgSrc} />
@@ -105,6 +106,7 @@ function EditFormComponent({ onSubmit, userData }) {
           />
         </div>
         <button type="submit">Save changes</button>
+        {message.show && <PopupMessage type={message.type} message={message.message} handleClose={message.onClose} />}
       </form>
     </div>
   );

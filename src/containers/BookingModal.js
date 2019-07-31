@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { useToggle } from 'react-use';
+import { useToggle, useClickAway } from 'react-use';
 import { action } from 'mobx';
 
 import { Booking } from '../components/Booking';
@@ -12,10 +12,15 @@ function BookingModalContainer({ history, match: { params: { id }}}) {
   const { appState } = React.useContext(appContext);
   const [seats, setSeats] = React.useState(0);
   const [created, toggleCreated] = useToggle(false);
+  const ref = React.useRef(null);
+
+  useClickAway(ref, () => {
+    toggleCreated(false);
+    history.push(`/flight/${id}`);
+  });
 
   function handleClosing() {
     toggleCreated(false);
-    history.push(`/flight/${id}`);
   }
 
   const handleBooking = action(function() {
@@ -35,6 +40,7 @@ function BookingModalContainer({ history, match: { params: { id }}}) {
   }
   return (
     <Booking
+      refrence={ref}
       freeSeats={appState.flight.freeSeats}
       seatsSelected={seats}
       handleClosing={handleClosing}

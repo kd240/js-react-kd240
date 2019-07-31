@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 
 import { RegisterForm } from '../components/RegisterForm';
 import { createUser } from '../services/user';
+import { useToggle } from 'react-use';
 
-function RegisterContainer() {
-  const [success, setSuccess] = useState(false);
+function RegisterContainer({ history }) {
+  const [success, toggleSuccess] = useToggle(false);
+  const [error, setError] = React.useState('');
 
   function onSubmit(data) {
     createUser({
@@ -16,14 +18,26 @@ function RegisterContainer() {
         password: data.password,
       },
     }).then(() => {
-      setSuccess(true);
-    }).catch((err) => console.log(err)); // eslint-disable-line
+      toggleSuccess(true);
+    }).catch((err) => setError('User already exists')); // eslint-disable-line
+  }
+
+  function handleCloseError() {
+    setError('');
+  }
+
+  function handleCloseSucces() {
+    toggleSuccess(false);
+    history.push('/login');
   }
 
   return (
     <RegisterForm
       onSubmit={onSubmit}
       success={success}
+      error={error}
+      handleCloseError={handleCloseError}
+      handleCloseSucces={handleCloseSucces}
     />
   );
 }

@@ -3,7 +3,7 @@
   border-radius: 5px;
   background: white;
   box-shadow: #777 0px 0px 20px 0px;
-  
+
   h1 {
     color: #0568FA;
     padding: 20px;
@@ -19,20 +19,30 @@
 }
 
 .arrowLeft{
-  width: 1vw;
-  height: 1vw;
-  border: 1vw solid;
-  border-color: black transparent transparent black;
+  width: 2vw;
+  height: 2vw;
+  border: .5vw solid;
+  border-color: #0568FA transparent transparent #0568FA;
   transform: rotate(-45deg);
   margin-left: 2vw;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    transform: rotate(-45deg) scale(1.1);
+  }
 }
 
 .arrowRight{
-  width: 1vw;
-  height: 1vw;
-  border: 1vw solid;
-  border-color: black transparent transparent black;
+  width: 2vw;
+  height: 2vw;
+  border: .5vw solid;
+  border-color: #0568FA transparent transparent #0568FA;
   transform: rotate(135deg);
   margin-right: 2vw;
   grid-column-start: 6;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    transform: rotate(135deg) scale(1.1);
+  }
 }

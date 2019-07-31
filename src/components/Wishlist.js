@@ -7,7 +7,7 @@ function WishlistComponent({ info }) {
     [info]
   );
   const freeSeats = React.useMemo(() => info.no_of_seats - info.no_of_booked_seats, [info]);
-  
+
   return (
     <div>
       <img alt="City" src="https://loremflickr.com/200/200/city" />
