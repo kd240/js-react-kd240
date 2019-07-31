@@ -20,7 +20,7 @@ export async function getFlighs(appState) {
  * If flight exists it is stored in appState.flight
  * @param {number} id
  */
-export function getFlightById(id, appState) {
+export async function getFlightById(id, appState) {
   return getAuthorized(`${model}/${id}`, appState)
     .then((res) => res.flight)
     .then((flight) => {

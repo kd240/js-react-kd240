@@ -2,11 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { useClickAway } from 'react-use';
 
-import { EditForm } from './EditForm';
+import { EditUser } from './EditUser';
 import { appContext } from '../state/appContext';
-import { checkOldPassword } from '../services/session';
-import { postImage } from '../services/API';
-import { updateUserData } from '../services/user';
+import { updateUser } from '../services/user';
 import { PopupMessageTypes } from '../components/PopupMessage';
 
 function UserModalContainer({ history }) {
@@ -20,36 +18,9 @@ function UserModalContainer({ history }) {
   const ref = React.useRef(null);
   useClickAway(ref, () => history.push('/user'));
 
-  function onSubmit({
-    email,
-    firstName,
-    lastName,
-    newPassword,
-    oldPassword,
-    selectPhoto,
-  }) {
-    checkOldPassword(appState.user.email, oldPassword)
+  function onSubmit(data) {
+    updateUser(appState, data)
       .then(() => {
-        if (selectPhoto) {
-          const image = new FormData();
-          image.append('image', selectPhoto);
-          return postImage(appState, image);
-        }
-        return Promise.resolve({ imageUrl: appState.user.image_url });
-      })
-      .then(({ imageUrl }) =>
-        updateUserData(
-          {
-            email,
-            first_name: firstName, // eslint-disable-line
-            last_name: lastName, // eslint-disable-line
-            password: newPassword || oldPassword,
-            image_url: imageUrl, // eslint-disable-line
-          },
-          appState
-        ))
-      .then((user) => {
-        appState.user = user;
         setMessage({
           show: true,
           type: PopupMessageTypes.SUCCESS,
@@ -71,12 +42,11 @@ function UserModalContainer({ history }) {
             setMessage({
               show: false,
             }),
-        })
-      ); // eslint-disable-line
+        }));
   }
 
   return (
-    <EditForm
+    <EditUser
       reference={ref}
       onSubmit={onSubmit}
       userData={appState.user}

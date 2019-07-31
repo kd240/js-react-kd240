@@ -8,7 +8,7 @@ const model = models.SESSION;
  * @param {string} email
  * @param {string} password
  */
-export function getSessionToken(email, password, remember, appState) {
+export async function getSessionToken(email, password, remember, appState) {
   return post(model, { session: { email, password }})
     .then((res) => res.session)
     .then((session) => {
@@ -34,9 +34,9 @@ export function getSessionToken(email, password, remember, appState) {
 
 /**
  * If old password is incorrect error is thrown
- * @param {string} email 
- * @param {string} password 
+ * @param {string} email
+ * @param {string} password
  */
-export function checkOldPassword(email, password) {
+export async function checkOldPassword(email, password) {
   return post(model, { session: { email, password }});
 }
