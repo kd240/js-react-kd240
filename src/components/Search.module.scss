@@ -3,13 +3,13 @@
   grid-template-columns: repeat(4, 1fr);
   grid-column-gap: 2px;
   padding: 0 2em 2em;
-  background-color: #EDF1F3;
+  background-color: #edf1f3;
 
   & > h1 {
     text-align: center;
     grid-column: 1 / 5;
     line-height: 6rem;
-    color: #0568FA;
+    color: #0568fa;
   }
 
   & > input,
@@ -22,7 +22,7 @@
   }
 
   & > button {
-    background-color: #0568FA;
+    background-color: #0568fa;
     border: none;
     color: white;
     text-transform: uppercase;

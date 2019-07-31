@@ -43,7 +43,9 @@ export function FlightCardComponent({ flight }) {
           <span>
             <Rating rating={flight.rating} />
             <span className="divider"> | </span>
-            <span className="tickets">{flight.freeSeats} tickets available</span>
+            <span className="tickets">
+              {flight.freeSeats} tickets available
+            </span>
           </span>
           <p className="price">
             Price: <span className="price-value">{flight.price}$</span>

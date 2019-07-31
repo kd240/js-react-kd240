@@ -9,7 +9,7 @@ import { PrivateRoute } from './containers/PrivateRoute';
 import { Landing } from './containers/Landing';
 import { Login } from './containers/Login';
 import { Flight } from './containers/Flight';
-import { Register } from './containers/RegisterContainer';
+import { Register } from './containers/Register';
 import { BookingModal } from './containers/BookingModal';
 import { User } from './containers/User';
 import { UserModal } from './containers/UserModal';
@@ -19,7 +19,7 @@ import './index.scss';
 export function AppComponent() {
   const { appState } = React.useContext(appContext);
 
-  (action(function() {
+  action(function() {
     if (localStorage.getItem('remember')) {
       appState.sessionToken = localStorage.getItem('sessionToken');
       appState.firstName = localStorage.getItem('sessionName');
@@ -29,7 +29,7 @@ export function AppComponent() {
       appState.firstName = sessionStorage.getItem('sessionName');
       appState.userId = sessionStorage.getItem('sessionId');
     }
-  }))();
+  })();
 
   const isLogged = appState.sessionToken;
 
@@ -39,9 +39,17 @@ export function AppComponent() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <PrivateRoute isLogged={isLogged} path="/flight/:id" component={Flight} />
-      <PrivateRoute isLogged={isLogged} path="/flight/:id/book" component={BookingModal} />
+      <PrivateRoute
+        isLogged={isLogged}
+        path="/flight/:id/book"
+        component={BookingModal}
+      />
       <PrivateRoute isLogged={isLogged} path="/user" component={User} />
-      <PrivateRoute isLogged={isLogged} path="/user/edit" component={UserModal} />
+      <PrivateRoute
+        isLogged={isLogged}
+        path="/user/edit"
+        component={UserModal}
+      />
     </Router>
   );
 }

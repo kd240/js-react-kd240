@@ -14,7 +14,6 @@ function BookingComponent({
   handleSelectChanged,
   success,
 }) {
-
   return (
     <div className={styles.bookingModal}>
       <div ref={refrence}>
@@ -31,7 +30,11 @@ function BookingComponent({
         <br />
         <button onClick={handleBooking}>Confirm booking</button>
         {success && (
-          <PopupMessage type={PopupMessageTypes.SUCCESS} message="Booking created" handleClose={handleClosing} />
+          <PopupMessage
+            type={PopupMessageTypes.SUCCESS}
+            message="Booking created"
+            handleClose={handleClosing}
+          />
         )}
       </div>
     </div>

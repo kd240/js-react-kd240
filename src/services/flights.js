@@ -25,7 +25,8 @@ export async function getFlightById(id, appState) {
     .then((res) => res.flight)
     .then((flight) => {
       appState.flight = flight;
-      appState.flight.freeSeats = flight.no_of_seats - flight.no_of_booked_seats;
+      appState.flight.freeSeats =
+        flight.no_of_seats - flight.no_of_booked_seats;
       return flight;
     });
 }

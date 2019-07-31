@@ -1,0 +1,19 @@
+.bookingInfo {
+  text-align: center;
+
+  img {
+    width: 20vw;
+    max-width: 250px;
+  }
+  p:first-of-type {
+    color: gray;
+
+    span {
+      color: #0568fa;
+      font-weight: bold;
+    }
+  }
+  p:last-of-type {
+    font-size: 0.9rem;
+  }
+}

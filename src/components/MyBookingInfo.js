@@ -1,6 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
+import styles from './MyBookingInfo.module.scss';
+
 function MyBookingInfoComponent({ info }) {
   const flightDestination = React.useMemo(
     () => info.flight_name.split('-')[1].trim(),
@@ -10,12 +12,12 @@ function MyBookingInfoComponent({ info }) {
     const date = new Date(info.flys_at);
     return `${date.toLocaleDateString()} | ${date.toLocaleTimeString()}`;
   }, [info]);
-  
+
   return (
-    <div>
-      <img alt="City" src="https://loremflickr.com/200/200/city" />
+    <div className={styles.bookingInfo}>
+      <img alt="City" src="https://loremflickr.com/250/250/city" />
       <p>
-        {flightDestination} | {info.company_name}
+        <span>{flightDestination}</span> | {info.company_name}
       </p>
       <p>{flyAt}</p>
     </div>

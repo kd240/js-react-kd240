@@ -3,11 +3,7 @@ import { observer } from 'mobx-react';
 
 import styles from './ShowPanel.module.scss';
 
-function ShowPanelContainer({
-  title,
-  data: dataSet,
-  component: Component,
-}) {
+function ShowPanelContainer({ title, data: dataSet, component: Component }) {
   const [slicePosition, setSlicePosition] = React.useState(0);
 
   function handleShowView() {
@@ -33,9 +29,19 @@ function ShowPanelContainer({
     <div className={styles.showPanel}>
       {title && <h1>{title}</h1>}
       <div>
-        <div className={styles.arrowLeft} role="presentation" onClick={handleShowView().left} />
-        {dataSet.slice(slicePosition, slicePosition + 4).map((data) => <Component key={data.id} info={data} />)}
-        <div className={styles.arrowRight} role="presentation" onClick={handleShowView().right} />
+        <div
+          className={styles.arrowLeft}
+          role="presentation"
+          onClick={handleShowView().left}
+        />
+        {dataSet.slice(slicePosition, slicePosition + 4).map((data) => (
+          <Component key={data.id} info={data} />
+        ))}
+        <div
+          className={styles.arrowRight}
+          role="presentation"
+          onClick={handleShowView().right}
+        />
       </div>
     </div>
   );

@@ -44,14 +44,12 @@ async function updateUserData(userData, appState) {
  * @param {*} appState
  * @param {JSON} data
  */
-export async function updateUser(appState, {
-  email,
-  firstName,
-  lastName,
-  newPassword,
-  oldPassword,
-  selectPhoto,
-}) {
+export async function updateUser(
+  appState,
+  {
+    email, firstName, lastName, newPassword, oldPassword, selectPhoto,
+  }
+) {
   return checkOldPassword(appState.user.email, oldPassword)
     .then(() => {
       if (selectPhoto) {

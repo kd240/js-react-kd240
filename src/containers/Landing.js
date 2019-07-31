@@ -28,7 +28,7 @@ function LandingContainer({ history }) {
   return (
     <div>
       <Header history={history} />
-      <div className={styles.landing}>
+      <div>
         <Search
           inputValues={appState.flightFilter}
           handleSearch={handleSearch}

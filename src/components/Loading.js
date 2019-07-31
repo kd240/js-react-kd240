@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import styles from './Loading.module.scss'
+import styles from './Loading.module.scss';
 
 function LoadingComponent() {
   return (

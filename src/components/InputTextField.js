@@ -3,12 +3,7 @@ import { observer } from 'mobx-react';
 
 import styles from './InputTextField.module.scss';
 
-function InputTextFieldComponent({
-  register,
-  error,
-  ...rest
-}) {
-
+function InputTextFieldComponent({ register, error, ...rest }) {
   return (
     <div className={styles.userInput}>
       <input
@@ -17,11 +12,7 @@ function InputTextFieldComponent({
         ref={register}
         {...rest}
       />
-      {error && (
-        <p className={styles.error}>
-          {error.message}
-        </p>
-      )}
+      {error && <p className={styles.error}>{error.message}</p>}
     </div>
   );
 }

@@ -5,7 +5,7 @@
   box-shadow: #777 0px 0px 20px 0px;
 
   h1 {
-    color: #0568FA;
+    color: #0568fa;
     padding: 20px;
     text-transform: uppercase;
   }
@@ -18,11 +18,11 @@
   }
 }
 
-.arrowLeft{
+.arrowLeft {
   width: 2vw;
   height: 2vw;
-  border: .5vw solid;
-  border-color: #0568FA transparent transparent #0568FA;
+  border: 0.5vw solid;
+  border-color: #0568fa transparent transparent #0568fa;
   transform: rotate(-45deg);
   margin-left: 2vw;
   transition: 0.3s ease-in-out;
@@ -32,11 +32,11 @@
   }
 }
 
-.arrowRight{
+.arrowRight {
   width: 2vw;
   height: 2vw;
-  border: .5vw solid;
-  border-color: #0568FA transparent transparent #0568FA;
+  border: 0.5vw solid;
+  border-color: #0568fa transparent transparent #0568fa;
   transform: rotate(135deg);
   margin-right: 2vw;
   grid-column-start: 6;

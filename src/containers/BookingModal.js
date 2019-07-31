@@ -8,7 +8,12 @@ import { appContext } from '../state/appContext';
 import { createBooking } from '../services/booking';
 import { getFlightById } from '../services/flights';
 
-function BookingModalContainer({ history, match: { params: { id }}}) {
+function BookingModalContainer({
+  history,
+  match: {
+    params: { id },
+  },
+}) {
   const { appState } = React.useContext(appContext);
   const [seats, setSeats] = React.useState(0);
   const [created, toggleCreated] = useToggle(false);
@@ -24,12 +29,15 @@ function BookingModalContainer({ history, match: { params: { id }}}) {
   }
 
   const handleBooking = action(function() {
-    createBooking({
-      booking: {
-        no_of_seats: seats, // eslint-disable-line
-        flight_id: id, // eslint-disable-line
+    createBooking(
+      {
+        booking: {
+          no_of_seats: seats, // eslint-disable-line
+          flight_id: id, // eslint-disable-line
+        },
       },
-    }, appState)
+      appState
+    )
       .then(toggleCreated(true))
       .then(getFlightById(id, appState))
       .catch((err) => console.log(err)); // eslint-disable-line

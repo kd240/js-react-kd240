@@ -17,13 +17,16 @@ function EditFormComponent({
   message,
   userImg,
 }) {
-
   const { getInputProps, getRootProps } = useDropzone({
     onDrop,
   });
 
   return (
-    <form ref={reference} className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form
+      ref={reference}
+      className={styles.form}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <h1>Edit profile</h1>
       <div className={styles.dropdown} {...getRootProps()}>
         <img alt="Profile" src={userImg} />

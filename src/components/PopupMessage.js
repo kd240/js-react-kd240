@@ -8,12 +8,7 @@ export const PopupMessageTypes = {
   SUCCESS: 'success',
 };
 
-function PopupMessageComponent({
-  type,
-  handleClose,
-  message,
-}) {
-
+function PopupMessageComponent({ type, handleClose, message }) {
   return (
     <div className={styles[type]}>
       <span onClick={handleClose}>&#x2716;</span> {/* eslint-disable-line */}

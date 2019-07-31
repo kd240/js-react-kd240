@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { useToggle } from 'react-use';
 
 import { RegisterForm } from '../components/RegisterForm';
 import { createUser } from '../services/user';
-import { useToggle } from 'react-use';
 
 function RegisterContainer({ history }) {
   const [success, toggleSuccess] = useToggle(false);
@@ -17,9 +17,11 @@ function RegisterContainer({ history }) {
         email: data.email,
         password: data.password,
       },
-    }).then(() => {
-      toggleSuccess(true);
-    }).catch((err) => setError('User already exists')); // eslint-disable-line
+    })
+      .then(() => {
+        toggleSuccess(true);
+      })
+      .catch((err) => setError('User already exists')); // eslint-disable-line
   }
 
   function handleCloseError() {
