@@ -17,11 +17,17 @@ function FligthContainer({
 }) {
   const { appState } = React.useContext(appContext);
 
-  const { loading, value } = useAsync(action(() => getFlightById(id, appState)));
+  const { loading, value, error } = useAsync(action(() => getFlightById(id, appState)));
 
   function openBookingModal() {
     history.push(`/flight/${id}/book`);
   }
+
+  React.useEffect(() => {
+    if (error) {
+      history.push('/error404');
+    }
+  }, [error]);
 
   return (
     <div>

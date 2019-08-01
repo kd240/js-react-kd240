@@ -13,6 +13,7 @@ import { Register } from './containers/Register';
 import { BookingModal } from './containers/BookingModal';
 import { User } from './containers/User';
 import { UserModal } from './containers/UserModal';
+import { Error404 } from './components/Error404';
 
 import './index.scss';
 
@@ -50,6 +51,7 @@ export function AppComponent() {
         path="/user/edit"
         component={UserModal}
       />
+      <Route path="/error404" component={Error404} />
     </Router>
   );
 }
