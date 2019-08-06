@@ -9,7 +9,7 @@
   text-align: center;
 
   h1 {
-    color: #0568FA;
+    color: #0568fa;
   }
 
   form {
@@ -21,17 +21,17 @@
       display: block;
       width: 80%;
       margin: 1em auto;
-      background-color: #0568FA;
+      background-color: #0568fa;
       border: none;
       color: white;
       font-size: 1.3rem;
       line-height: 2em;
       padding: 0 2em;
       border-radius: 5px;
-      cursor: pointer;  
+      cursor: pointer;
 
       &:disabled {
-        background-color: #65A7FA;
+        background-color: #65a7fa;
       }
     }
   }
@@ -46,7 +46,7 @@
 
   & > label {
     font-size: 1.2em;
-  
+
     & > span {
       vertical-align: middle;
     }
@@ -59,7 +59,7 @@
   }
 
   & > a {
-    color: #0568FA;
-    text-decoration: none; 
+    color: #0568fa;
+    text-decoration: none;
   }
 }

@@ -1,0 +1,47 @@
+.userInfo {
+  margin: 25px;
+  border-radius: 5px;
+  width: calc(350px * 3);
+  height: 350px;
+  display: grid;
+  background: white;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: repeat(4, 1fr);
+  box-shadow: #777 0px 0px 20px 0px;
+
+  img {
+    width: 300px;
+    height: 300px;
+    grid-row: 1 / 5;
+    box-shadow: #000000ee 0px 0px 3px 0px;
+    margin: 25px;
+    object-fit: cover;
+  }
+
+  h1 {
+    color: #0568fa;
+    margin: 25px 25px;
+  }
+
+  p {
+    justify-self: start;
+    align-self: start;
+    margin: 0;
+    margin-left: 25px;
+  }
+
+  button {
+    grid-row-end: 5;
+    margin-left: 25px;
+    width: 350px;
+    height: 3rem;
+    border: none;
+    color: white;
+    background: #0568fa;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    padding: 0 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}

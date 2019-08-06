@@ -1,0 +1,73 @@
+.form {
+  width: 700px;
+  background: white;
+  display: grid;
+  grid-template-rows: 1fr 2fr repeat(4, 1fr);
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  justify-items: center;
+  align-items: center;
+  padding: 25px;
+
+  > h1 {
+    margin: 0;
+    text-align: center;
+    color: #0568fa;
+    grid-column: 1 / 3;
+  }
+
+  > div {
+    width: 80%;
+    outline: none;
+
+    > img {
+      padding-top: 10px;
+      height: 150px;
+      width: 150px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+
+    > label {
+      color: #0568fa;
+      font-weight: bold;
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    > div {
+      width: 100%;
+      margin: 0.7rem;
+
+      > input {
+        padding: 0.8em 0;
+      }
+    }
+  }
+
+  > button {
+    grid-column: 1 / 3;
+    display: block;
+    width: 50%;
+    margin: 1em auto;
+    background-color: #0568fa;
+    border: none;
+    color: white;
+    font-size: 1.3rem;
+    line-height: 2em;
+    padding: 0 2em;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
+
+.dropdown {
+  grid-column: 1 / 3;
+  border-radius: 5px;
+  border: dashed lightgrey 2px;
+  height: 90%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}

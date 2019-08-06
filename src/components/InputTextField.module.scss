@@ -1,22 +1,22 @@
-.userInput{
+.userInput {
   margin: 1.2rem 0;
 
   input {
     width: 100%;
     border: none;
-    border-bottom: #65A7FA solid 1.5px;
+    border-bottom: #65a7fa solid 1.5px;
     outline: none;
     font-size: 1.2rem;
     padding: 1rem;
     margin-bottom: 0.7rem;
-  
+
     &:focus {
-      border-bottom-color: #0568FA;
+      border-bottom-color: #0568fa;
     }
 
-    &[valid="no"] {
+    &[valid='no'] {
       border-bottom-color: #e98282;
-  
+
       &:focus {
         border-bottom-color: #db1d1d;
       }
@@ -27,14 +27,14 @@
 .input {
   width: 100%;
   border: none;
-  border-bottom: #65A7FA solid 1px;
+  border-bottom: #65a7fa solid 1px;
   outline: none;
   font-size: 1.2rem;
   padding: 1rem;
   margin: 1em 0;
 
   &:focus {
-    border-bottom-color: #0568FA
+    border-bottom-color: #0568fa;
   }
 }
 

@@ -5,13 +5,11 @@ import { observer } from 'mobx-react';
 import { InputTextField } from './InputTextField';
 
 import styles from './LoginForm.module.scss';
+import { PopupMessage, PopupMessageTypes } from './PopupMessage';
 
-function LoginComponent({ onSubmit }) {
+function LoginComponent({ onSubmit, error, handleClosing }) {
   const {
-    register,
-    handleSubmit,
-    errors,
-    formState,
+    register, handleSubmit, errors, formState,
   } = useForm({
     mode: 'onChange',
   });
@@ -47,14 +45,27 @@ function LoginComponent({ onSubmit }) {
             name="remember"
             ref={register}
           />
-          <label htmlFor="remember"><span>Remember me</span></label>
+          <label htmlFor="remember">
+            <span>Remember me</span>
+          </label>
         </div>
-        <button type="submit" disabled={!formState.isValid}>Login</button>
+        <button type="submit" disabled={!formState.isValid}>
+          Login
+        </button>
       </form>
       <div className={styles.register}>
         <h2>Don&apos;t have an account?</h2>
-        <Link to='/register'><h2 className="link">Register here</h2></Link>
+        <Link to="/register">
+          <h2 className="link">Register here</h2>
+        </Link>
       </div>
+      {error && (
+        <PopupMessage
+          type={PopupMessageTypes.ERROR}
+          message={error}
+          handleClose={handleClosing}
+        />
+      )}
     </div>
   );
 }

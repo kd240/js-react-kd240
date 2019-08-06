@@ -1,11 +1,12 @@
 import { postAuthorized } from './API';
+import { models } from './model.enum';
 
-const model = 'bookings';
+const model = models.BOOKING;
 
 /**
  * If booking created successfully, appState.bookingCreated is set to true
  * @param {JSON} bookingInfo
  */
-export function createBooking(bookingInfo, AppState) {
+export async function createBooking(bookingInfo, AppState) {
   return postAuthorized(model, bookingInfo, AppState);
 }

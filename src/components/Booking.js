@@ -2,10 +2,11 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { SelectElement } from './SelectElement';
 
-import messages from '../styles/statusMessages.module.scss';
 import styles from './Booking.module.scss';
+import { PopupMessage, PopupMessageTypes } from './PopupMessage';
 
 function BookingComponent({
+  refrence,
   freeSeats,
   seatsSelected,
   handleClosing,
@@ -13,10 +14,9 @@ function BookingComponent({
   handleSelectChanged,
   success,
 }) {
-  
   return (
     <div className={styles.bookingModal}>
-      <div>
+      <div ref={refrence}>
         <h1>Create booking</h1>
         <p>Number of passangers</p>
         <SelectElement
@@ -30,12 +30,11 @@ function BookingComponent({
         <br />
         <button onClick={handleBooking}>Confirm booking</button>
         {success && (
-          <div className={messages.success}>
-            <p>Booking created successfully</p>
-          </div>
-        )}
-        {success && (
-          <button onClick={handleClosing}>Close</button>
+          <PopupMessage
+            type={PopupMessageTypes.SUCCESS}
+            message="Booking created"
+            handleClose={handleClosing}
+          />
         )}
       </div>
     </div>

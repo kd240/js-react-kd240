@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr auto auto;
   padding: 1.5em;
-  background: #0568FA;
+  background: #0568fa;
 
   & > p {
     grid-column-start: 2;
@@ -10,15 +10,14 @@
     justify-self: center;
     align-self: center;
     color: white;
-    font-size: 1.5em
+    font-size: 1.5em;
   }
 
   & > button {
     grid-column-start: 3;
     background: white;
-    color: darkslategray;
     border: none;
-    color: #0568FA;
+    color: #0568fa;
     font-size: 1.3rem;
     line-height: 2em;
     padding: 0 2em;
